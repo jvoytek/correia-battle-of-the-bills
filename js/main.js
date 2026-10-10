@@ -7,8 +7,11 @@ const TEAM_COLORS = {
 
 let chartHistory = [];
 let chartAnimationFrame;
+let dailyAnimationFrame;
 let refreshTimeoutId;
-const counterAnimations = new WeakMap();
+let lastDataSignature;
+const leaderboardNodes = new Map();
+let leaderboardOrder = "";
 
 const formatNumber = (value) => new Intl.NumberFormat("en-US").format(value);
 
@@ -22,46 +25,15 @@ async function fetchLeaderboardData() {
   return response.json();
 }
 
-function animateCounter(element, nextValue) {
-  const startValue = Number(element.dataset.value || 0);
-  const duration = 10000;
-  const startTime = performance.now();
-  const currentAnimation = counterAnimations.get(element);
-
-  if (currentAnimation) {
-    cancelAnimationFrame(currentAnimation);
-  }
-
-  const tick = (now) => {
-    const progress = Math.min((now - startTime) / duration, 1);
-    const eased = 1 - Math.pow(1 - progress, 3);
-    const currentValue = Math.round(startValue + (nextValue - startValue) * eased);
-    element.textContent = formatNumber(currentValue);
-
-    if (progress < 1) {
-      const nextAnimation = requestAnimationFrame(tick);
-      counterAnimations.set(element, nextAnimation);
-    } else {
-      element.dataset.value = String(nextValue);
-      counterAnimations.delete(element);
-    }
-  };
-
-  const nextAnimation = requestAnimationFrame(tick);
-  counterAnimations.set(element, nextAnimation);
-}
-
-function renderStandings(data) {
-  const teams = [...data.teams].sort((left, right) => right.totalPoints - left.totalPoints);
-  if (teams.length < 2) {
+function renderStandings(teams) {
+  const orderedTeams = [...teams].sort((left, right) => right.totalPoints - left.totalPoints);
+  if (orderedTeams.length < 2) {
     throw new Error("Leaderboard data must contain both grade teams.");
   }
-  const leader = teams[0];
-  const runnerUp = teams[1];
-  const differential = leader.totalPoints - runnerUp.totalPoints;
+  const leader = orderedTeams[0];
 
   TEAM_ORDER.forEach((grade) => {
-    const team = data.teams.find((entry) => entry.grade === grade);
+    const team = teams.find((entry) => entry.grade === grade);
     if (!team) {
       return;
     }
@@ -72,23 +44,10 @@ function renderStandings(data) {
     if (!totalElement || !cardElement) {
       throw new Error(`Missing scoreboard elements for ${grade}.`);
     }
-    //const rank = teams.findIndex((entry) => entry.grade === grade) + 1;
 
-    totalElement.dataset.value ??= "0";
-    animateCounter(totalElement, team.totalPoints);
-    //rankElement.textContent = `#${rank}`;
+    totalElement.textContent = formatNumber(team.totalPoints);
     cardElement.classList.toggle("is-leading", grade === leader.grade);
   });
-
-  /*const diffTotal = document.getElementById("diff-total");
-  const diffMeta = document.getElementById("diff-meta");
-  if (!diffTotal || !diffMeta) {
-    throw new Error("Missing lead differential elements.");
-  }
-
-  diffTotal.dataset.value ??= "0";
-  animateCounter(diffTotal, differential);
-  diffMeta.textContent = `${leader.grade} leads by ${formatNumber(differential)} points`;*/
 }
 
 function renderStatus(lastUpdated) {
@@ -121,30 +80,96 @@ function renderStudentLeaderboard(entries) {
     .sort((left, right) => right.totalPoints - left.totalPoints)
     .slice(0, 5);
 
-  list.innerHTML = "";
-
+  const nextOrder = topFive.map((entry) => `${entry.name}|${entry.grade}`).join("\n");
   topFive.forEach((entry, index) => {
-    const item = document.createElement("li");
-    const rank = document.createElement("span");
-    const details = document.createElement("span");
-    const name = document.createElement("strong");
-    const grade = document.createElement("span");
-    const points = document.createElement("span");
+    const key = `${entry.name}|${entry.grade}`;
+    let row = leaderboardNodes.get(key);
+    if (!row) {
+      const item = document.createElement("li");
+      const rank = document.createElement("span");
+      const details = document.createElement("span");
+      const name = document.createElement("strong");
+      const grade = document.createElement("span");
+      const points = document.createElement("span");
 
-    rank.className = "student-rank";
-    rank.textContent = `${index + 1}. `;
+      rank.className = "student-rank";
+      name.className = "student-name";
+      name.textContent = entry.name;
+      grade.textContent = ` ${entry.grade} `;
+      details.append(name, grade);
+      points.className = "student-points";
+      item.append(rank, details, points);
+      row = { item, rank, points };
+      leaderboardNodes.set(key, row);
+    }
 
-    name.className = "student-name";
-    name.textContent = entry.name;
-    grade.textContent = ` ${entry.grade} `;
-    details.append(name, grade);
-
-    points.className = "student-points";
-    points.textContent = formatNumber(entry.totalPoints);
-
-    item.append(rank, details, points);
-    list.appendChild(item);
+    row.rank.textContent = `${index + 1}. `;
+    row.points.textContent = formatNumber(entry.totalPoints);
   });
+
+  if (nextOrder !== leaderboardOrder) {
+    list.replaceChildren(...topFive.map((entry) => leaderboardNodes.get(`${entry.name}|${entry.grade}`).item));
+    leaderboardOrder = nextOrder;
+  }
+}
+
+function interpolateHistory(values, position) {
+  const startIndex = Math.floor(position);
+  const endIndex = Math.min(startIndex + 1, values.length - 1);
+  const fraction = position - startIndex;
+  return Math.round(values[startIndex] + (values[endIndex] - values[startIndex]) * fraction);
+}
+
+function renderDailyHistory(data) {
+  const dayNumber = document.getElementById("day-number");
+  if (!dayNumber) {
+    throw new Error("Missing day number display.");
+  }
+
+  const duration = 10000;
+  const start = performance.now();
+  const historyLength = data.history.length;
+  const update = (timestamp) => {
+    const progress = Math.min((timestamp - start) / duration, 1);
+    const position = progress * (historyLength - 1);
+    const lowerIndex = Math.floor(position);
+    const upperIndex = Math.min(lowerIndex + 1, historyLength - 1);
+    const fraction = position - lowerIndex;
+    const lowerDay = Number(data.history[lowerIndex].day);
+    const upperDay = Number(data.history[upperIndex].day);
+    dayNumber.textContent = `Day ${Math.round(lowerDay + (upperDay - lowerDay) * fraction)}`;
+
+    const teams = data.teams.map((team) => {
+      const history = data.historyByTeam[team.grade];
+      const snapshot = { grade: team.grade };
+      ["totalPoints", "online", "pennies", "bonus", "sabotage"].forEach((field) => {
+        const value = interpolateHistory(history[field], position);
+        snapshot[field] = value;
+        const suffix = team.grade.startsWith("7th") ? "7th" : "8th";
+        const element = document.getElementById(`${field === "totalPoints" ? "total" : field}-${suffix}`);
+        if (!element) {
+          throw new Error(`Missing ${field} points element for ${team.grade}.`);
+        }
+        element.textContent = formatNumber(value);
+      });
+      return snapshot;
+    });
+
+    renderStandings(teams);
+    renderStudentLeaderboard(data.leaderboard.map((entry) => ({
+      ...entry,
+      totalPoints: interpolateHistory(entry.history, position)
+    })));
+
+    if (progress < 1) {
+      dailyAnimationFrame = requestAnimationFrame(update);
+    } else {
+      dailyAnimationFrame = undefined;
+    }
+  };
+
+  cancelAnimationFrame(dailyAnimationFrame);
+  dailyAnimationFrame = requestAnimationFrame(update);
 }
 
 function drawEmptyChartState(ctx, canvas, message) {
@@ -332,19 +357,55 @@ function renderChart(history) {
 }
 
 function validateDataShape(data) {
-  if (!data || !Array.isArray(data.teams) || !Array.isArray(data.history) || !Array.isArray(data.leaderboard)) {
+  if (
+    !data ||
+    !Array.isArray(data.teams) ||
+    !Array.isArray(data.history) ||
+    !data.history.length ||
+    !data.historyByTeam ||
+    !Array.isArray(data.leaderboard)
+  ) {
     throw new Error("Leaderboard data is missing one or more required arrays.");
   }
+
+  const metrics = ["totalPoints", "online", "pennies", "bonus", "sabotage"];
+  data.teams.forEach((team) => {
+    const history = data.historyByTeam[team.grade];
+    if (!history || metrics.some((metric) => (
+      !Array.isArray(history[metric]) ||
+      history[metric].length !== data.history.length ||
+      history[metric].some((value) => !Number.isInteger(value))
+    ))) {
+      throw new Error(`Invalid daily points history for ${team.grade}.`);
+    }
+    if (history.totalPoints.at(-1) !== team.totalPoints) {
+      throw new Error(`Latest points history does not match ${team.grade}.`);
+    }
+  });
+
+  data.leaderboard.forEach((entry) => {
+    if (
+      !Array.isArray(entry.history) ||
+      entry.history.length !== data.history.length ||
+      entry.history.some((value) => !Number.isInteger(value)) ||
+      entry.history.at(-1) !== entry.totalPoints
+    ) {
+      throw new Error(`Invalid daily leaderboard history for ${entry.name}.`);
+    }
+  });
 }
 
 async function loadLeaderboard() {
   try {
     const data = await fetchLeaderboardData();
     validateDataShape(data);
-    renderStandings(data);
+    const signature = JSON.stringify(data);
+    if (signature !== lastDataSignature) {
+      renderDailyHistory(data);
+      lastDataSignature = signature;
+    }
     //renderChart(data.history);
     //renderChartSummary(data);
-    renderStudentLeaderboard(data.leaderboard);
     renderStatus(data.lastUpdated);
   } catch (error) {
     console.error(error);
