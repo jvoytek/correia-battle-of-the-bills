@@ -120,6 +120,32 @@ function interpolateHistory(values, position) {
   return Math.round(values[startIndex] + (values[endIndex] - values[startIndex]) * fraction);
 }
 
+function interpolateLeaders(history, position) {
+  const startIndex = Math.floor(position);
+  const endIndex = Math.min(startIndex + 1, history.length - 1);
+  const fraction = position - startIndex;
+  const startLeaders = history[startIndex].leaders;
+  const endLeaders = history[endIndex].leaders;
+  const startByKey = new Map(startLeaders.map((leader) => [`${leader.name}|${leader.grade}`, leader]));
+  const endByKey = new Map(endLeaders.map((leader) => [`${leader.name}|${leader.grade}`, leader]));
+  const keys = new Set([...startByKey.keys(), ...endByKey.keys()]);
+
+  return [...keys]
+    .map((key) => {
+      const startLeader = startByKey.get(key);
+      const endLeader = endByKey.get(key);
+      const leader = startLeader ?? endLeader;
+      return {
+        ...leader,
+        totalPoints: Math.round(
+          (startLeader?.totalPoints ?? 0) +
+          ((endLeader?.totalPoints ?? 0) - (startLeader?.totalPoints ?? 0)) * fraction
+        )
+      };
+    })
+    .filter((leader) => leader.totalPoints > 0);
+}
+
 function renderDailyHistory(data) {
   const dayNumber = document.getElementById("day-number");
   if (!dayNumber) {
@@ -156,10 +182,7 @@ function renderDailyHistory(data) {
     });
 
     renderStandings(teams);
-    renderStudentLeaderboard(data.leaderboard.map((entry) => ({
-      ...entry,
-      totalPoints: interpolateHistory(entry.history, position)
-    })));
+    renderStudentLeaderboard(interpolateLeaders(data.leaderboard, position));
 
     if (progress < 1) {
       dailyAnimationFrame = requestAnimationFrame(update);
@@ -383,14 +406,21 @@ function validateDataShape(data) {
     }
   });
 
-  data.leaderboard.forEach((entry) => {
+  if (data.leaderboard.length !== data.history.length) {
+    throw new Error("Daily leaderboard history must match the team history.");
+  }
+
+  data.leaderboard.forEach((snapshot, index) => {
     if (
-      !Array.isArray(entry.history) ||
-      entry.history.length !== data.history.length ||
-      entry.history.some((value) => !Number.isInteger(value)) ||
-      entry.history.at(-1) !== entry.totalPoints
+      snapshot.day !== data.history[index].day ||
+      !Array.isArray(snapshot.leaders) ||
+      snapshot.leaders.some((leader) => (
+        typeof leader.name !== "string" ||
+        typeof leader.grade !== "string" ||
+        !Number.isInteger(leader.totalPoints)
+      ))
     ) {
-      throw new Error(`Invalid daily leaderboard history for ${entry.name}.`);
+      throw new Error(`Invalid leaderboard history for day ${snapshot.day}.`);
     }
   });
 }
