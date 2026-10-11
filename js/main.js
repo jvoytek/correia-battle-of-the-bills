@@ -1,5 +1,6 @@
 const DATA_PATH = "./data/leaderboard.json";
 const TEAM_ORDER = ["7th Grade", "8th Grade"];
+const DAILY_ANIMATION_SPEED = 1 / 3;
 const TEAM_COLORS = {
   "7th Grade": { solid: "#1223b7", soft: "rgba(39, 198, 255, 0.18)" },
   "8th Grade": { solid: "#e10000", soft: "rgba(255, 141, 59, 0.18)" }
@@ -113,78 +114,45 @@ function renderStudentLeaderboard(entries) {
   }
 }
 
-function interpolateHistory(values, position) {
-  const startIndex = Math.floor(position);
-  const endIndex = Math.min(startIndex + 1, values.length - 1);
-  const fraction = position - startIndex;
-  return Math.round(values[startIndex] + (values[endIndex] - values[startIndex]) * fraction);
-}
-
-function interpolateLeaders(history, position) {
-  const startIndex = Math.floor(position);
-  const endIndex = Math.min(startIndex + 1, history.length - 1);
-  const fraction = position - startIndex;
-  const startLeaders = history[startIndex].leaders;
-  const endLeaders = history[endIndex].leaders;
-  const startByKey = new Map(startLeaders.map((leader) => [`${leader.name}|${leader.grade}`, leader]));
-  const endByKey = new Map(endLeaders.map((leader) => [`${leader.name}|${leader.grade}`, leader]));
-  const keys = new Set([...startByKey.keys(), ...endByKey.keys()]);
-
-  return [...keys]
-    .map((key) => {
-      const startLeader = startByKey.get(key);
-      const endLeader = endByKey.get(key);
-      const leader = startLeader ?? endLeader;
-      return {
-        ...leader,
-        totalPoints: Math.round(
-          (startLeader?.totalPoints ?? 0) +
-          ((endLeader?.totalPoints ?? 0) - (startLeader?.totalPoints ?? 0)) * fraction
-        )
-      };
-    })
-    .filter((leader) => leader.totalPoints > 0);
-}
-
 function renderDailyHistory(data) {
   const dayNumber = document.getElementById("day-number");
   if (!dayNumber) {
     throw new Error("Missing day number display.");
   }
 
-  const duration = 10000;
   const start = performance.now();
   const historyLength = data.history.length;
+  let lastDayIndex = -1;
   const update = (timestamp) => {
-    const progress = Math.min((timestamp - start) / duration, 1);
-    const position = progress * (historyLength - 1);
-    const lowerIndex = Math.floor(position);
-    const upperIndex = Math.min(lowerIndex + 1, historyLength - 1);
-    const fraction = position - lowerIndex;
-    const lowerDay = Number(data.history[lowerIndex].day);
-    const upperDay = Number(data.history[upperIndex].day);
-    dayNumber.textContent = `Day ${Math.round(lowerDay + (upperDay - lowerDay) * fraction)}`;
+    const dayIndex = Math.min(
+      Math.floor(((timestamp - start) / 1000) * DAILY_ANIMATION_SPEED),
+      historyLength - 1
+    );
 
-    const teams = data.teams.map((team) => {
-      const history = data.historyByTeam[team.grade];
-      const snapshot = { grade: team.grade };
-      ["totalPoints", "online", "pennies", "bonus", "sabotage"].forEach((field) => {
-        const value = interpolateHistory(history[field], position);
-        snapshot[field] = value;
+    if (dayIndex !== lastDayIndex) {
+      const snapshot = data.history[dayIndex];
+      dayNumber.textContent = `Day ${snapshot.day}`;
+      const teams = data.teams.map((team) => {
+        const history = data.historyByTeam[team.grade];
+        const values = { grade: team.grade };
         const suffix = team.grade.startsWith("7th") ? "7th" : "8th";
-        const element = document.getElementById(`${field === "totalPoints" ? "total" : field}-${suffix}`);
-        if (!element) {
-          throw new Error(`Missing ${field} points element for ${team.grade}.`);
-        }
-        element.textContent = formatNumber(value);
+        ["totalPoints", "online", "pennies", "bonus", "sabotage"].forEach((field) => {
+          const value = history[field][dayIndex];
+          values[field] = value;
+          const element = document.getElementById(`${field === "totalPoints" ? "total" : field}-${suffix}`);
+          if (!element) {
+            throw new Error(`Missing ${field} points element for ${team.grade}.`);
+          }
+          element.textContent = formatNumber(value);
+        });
+        return values;
       });
-      return snapshot;
-    });
 
-    renderStandings(teams);
-    renderStudentLeaderboard(interpolateLeaders(data.leaderboard, position));
+      renderStandings(teams);
+      lastDayIndex = dayIndex;
+    }
 
-    if (progress < 1) {
+    if (dayIndex < historyLength - 1) {
       dailyAnimationFrame = requestAnimationFrame(update);
     } else {
       dailyAnimationFrame = undefined;
@@ -406,23 +374,13 @@ function validateDataShape(data) {
     }
   });
 
-  if (data.leaderboard.length !== data.history.length) {
-    throw new Error("Daily leaderboard history must match the team history.");
+  if (!Array.isArray(data.leaderboard) || data.leaderboard.some((leader) => (
+    typeof leader.name !== "string" ||
+    typeof leader.grade !== "string" ||
+    !Number.isInteger(leader.totalPoints)
+  ))) {
+    throw new Error("Invalid current leaderboard.");
   }
-
-  data.leaderboard.forEach((snapshot, index) => {
-    if (
-      snapshot.day !== data.history[index].day ||
-      !Array.isArray(snapshot.leaders) ||
-      snapshot.leaders.some((leader) => (
-        typeof leader.name !== "string" ||
-        typeof leader.grade !== "string" ||
-        !Number.isInteger(leader.totalPoints)
-      ))
-    ) {
-      throw new Error(`Invalid leaderboard history for day ${snapshot.day}.`);
-    }
-  });
 }
 
 async function loadLeaderboard() {
@@ -432,6 +390,7 @@ async function loadLeaderboard() {
     const signature = JSON.stringify(data);
     if (signature !== lastDataSignature) {
       renderDailyHistory(data);
+      renderStudentLeaderboard(data.leaderboard);
       lastDataSignature = signature;
     }
     //renderChart(data.history);
