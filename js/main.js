@@ -1,6 +1,7 @@
 const DATA_PATH = "./data/leaderboard.json";
 const TEAM_ORDER = ["7th Grade", "8th Grade"];
 const DAILY_ANIMATION_SPEED = 1 / 3;
+const DAILY_ANIMATION_PAUSE_MS = 2000;
 const TEAM_COLORS = {
   "7th Grade": { solid: "#1223b7", soft: "rgba(39, 198, 255, 0.18)" },
   "8th Grade": { solid: "#e10000", soft: "rgba(255, 141, 59, 0.18)" }
@@ -124,35 +125,46 @@ function renderDailyHistory(data) {
   const historyLength = data.history.length;
   let lastDayIndex = -1;
   const update = (timestamp) => {
-    const dayIndex = Math.min(
-      Math.floor(((timestamp - start) / 1000) * DAILY_ANIMATION_SPEED),
-      historyLength - 1
-    );
+    const intervalDuration = 1000 / DAILY_ANIMATION_SPEED;
+    const cycleDuration = intervalDuration + DAILY_ANIMATION_PAUSE_MS;
+    const elapsed = timestamp - start;
+    const intervalIndex = historyLength === 1
+      ? 0
+      : Math.min(Math.floor(elapsed / cycleDuration), historyLength - 2);
+    const intervalElapsed = elapsed - intervalIndex * cycleDuration;
+    const progress = Math.min(intervalElapsed / intervalDuration, 1);
+    const isFinished = historyLength === 1 ||
+      elapsed >= (historyLength - 2) * cycleDuration + intervalDuration;
+    const dayIndex = isFinished
+      ? historyLength - 1
+      : Math.min(intervalIndex + (intervalElapsed >= intervalDuration ? 1 : 0), historyLength - 1);
 
     if (dayIndex !== lastDayIndex) {
-      const snapshot = data.history[dayIndex];
-      dayNumber.textContent = `Day ${snapshot.day}`;
-      const teams = data.teams.map((team) => {
-        const history = data.historyByTeam[team.grade];
-        const values = { grade: team.grade };
-        const suffix = team.grade.startsWith("7th") ? "7th" : "8th";
-        ["totalPoints", "online", "pennies", "bonus", "sabotage"].forEach((field) => {
-          const value = history[field][dayIndex];
-          values[field] = value;
-          const element = document.getElementById(`${field === "totalPoints" ? "total" : field}-${suffix}`);
-          if (!element) {
-            throw new Error(`Missing ${field} points element for ${team.grade}.`);
-          }
-          element.textContent = formatNumber(value);
-        });
-        return values;
-      });
-
-      renderStandings(teams);
+      dayNumber.textContent = `Day ${data.history[dayIndex].day}`;
       lastDayIndex = dayIndex;
     }
 
-    if (dayIndex < historyLength - 1) {
+    const teams = data.teams.map((team) => {
+      const history = data.historyByTeam[team.grade];
+      const values = { grade: team.grade };
+      const suffix = team.grade.startsWith("7th") ? "7th" : "8th";
+      ["totalPoints", "online", "pennies", "bonus", "sabotage"].forEach((field) => {
+        const from = history[field][intervalIndex];
+        const to = history[field][Math.min(intervalIndex + 1, history[field].length - 1)];
+        const value = Math.round(from + (to - from) * progress);
+        values[field] = value;
+        const element = document.getElementById(`${field === "totalPoints" ? "total" : field}-${suffix}`);
+        if (!element) {
+          throw new Error(`Missing ${field} points element for ${team.grade}.`);
+        }
+        element.textContent = formatNumber(value);
+      });
+      return values;
+    });
+
+    renderStandings(teams);
+
+    if (!isFinished) {
       dailyAnimationFrame = requestAnimationFrame(update);
     } else {
       dailyAnimationFrame = undefined;
