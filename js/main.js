@@ -12,6 +12,8 @@ let chartAnimationFrame;
 let dailyAnimationFrame;
 let refreshTimeoutId;
 let lastDataSignature;
+let historyBars = new Map();
+let historyBarMax = 0;
 const leaderboardNodes = new Map();
 let leaderboardOrder = "";
 
@@ -121,43 +123,38 @@ function renderHistoryBars(data) {
     throw new Error("Missing history bar chart container.");
   }
 
-  const maxValue = Math.max(
+  historyBarMax = Math.max(
     ...data.teams.flatMap((team) => data.historyByTeam[team.grade].totalPoints),
     0
   );
   const chart = document.createElement("div");
   chart.className = "history-bars";
   chart.setAttribute("role", "img");
-  chart.setAttribute("aria-label", "Daily team total points bar chart");
-  const legend = document.createElement("div");
-  legend.className = "history-bar-legend";
-  legend.textContent = "7th Grade  •  8th Grade";
-  const bars = [];
+  chart.setAttribute("aria-label", "Current day team total points");
+  historyBars = new Map();
 
-  data.history.forEach((day, index) => {
+  TEAM_ORDER.forEach((grade) => {
+    const team = data.teams.find((entry) => entry.grade === grade);
+    if (!team) {
+      throw new Error(`Missing history for ${grade}.`);
+    }
     const group = document.createElement("div");
+    const bar = document.createElement("span");
+    const label = document.createElement("span");
     group.className = "history-bar-group";
-    group.setAttribute("aria-label", `Day ${day.day}`);
-
-    data.teams.forEach((team) => {
-      const bar = document.createElement("span");
-      const value = data.historyByTeam[team.grade].totalPoints[index];
-      bar.className = `history-bar ${team.grade.startsWith("7th") ? "history-bar-7th" : "history-bar-8th"}`;
-      bar.style.height = "0%";
-      bar.dataset.height = String(maxValue ? (value / maxValue) * 100 : 0);
-      bar.title = `${team.grade}: ${formatNumber(value)} points`;
-      group.appendChild(bar);
-      bars.push(bar);
-    });
-
+    bar.className = `history-bar ${team.grade.startsWith("7th") ? "history-bar-7th" : "history-bar-8th"}`;
+    bar.style.height = "0%";
+    bar.title = `${team.grade}: 0 points`;
+    label.className = "history-bar-label";
+    label.textContent = team.grade;
+    group.append(bar, label);
     chart.appendChild(group);
+    historyBars.set(team.grade, bar);
   });
 
-  container.replaceChildren(legend, chart);
+  container.replaceChildren(chart);
   requestAnimationFrame(() => {
-    bars.forEach((bar) => {
-      bar.style.height = `${bar.dataset.height}%`;
-    });
+    chart.classList.add("is-visible");
   });
 }
 
@@ -185,7 +182,8 @@ function renderDailyHistory(data) {
       ? historyLength - 1
       : Math.min(intervalIndex + (intervalElapsed >= intervalDuration ? 1 : 0), historyLength - 1);
 
-    if (dayIndex !== lastDayIndex) {
+    const dayChanged = dayIndex !== lastDayIndex;
+    if (dayChanged) {
       dayNumber.textContent = `Day ${data.history[dayIndex].day}`;
       lastDayIndex = dayIndex;
     }
@@ -215,7 +213,18 @@ function renderDailyHistory(data) {
       return values;
     });
 
+    historyBars.forEach((bar, grade) => {
+      const team = teams.find((entry) => entry.grade === grade);
+      const value = team.totalPoints;
+      bar.style.height = `${historyBarMax ? (value / historyBarMax) * 100 : 0}%`;
+      bar.title = `${grade}: ${formatNumber(value)} points`;
+      bar.parentElement?.setAttribute("aria-label", `${grade}: ${formatNumber(value)} points`);
+    });
+
     renderStandings(teams);
+    if (dayChanged) {
+      renderStudentLeaderboard(data.leaderboard[dayIndex].leaders);
+    }
 
     if (!isFinished) {
       dailyAnimationFrame = requestAnimationFrame(update);
@@ -442,12 +451,20 @@ function validateDataShape(data) {
     }
   });
 
-  if (!Array.isArray(data.leaderboard) || data.leaderboard.some((leader) => (
-    typeof leader.name !== "string" ||
-    typeof leader.grade !== "string" ||
-    !Number.isInteger(leader.totalPoints)
-  ))) {
-    throw new Error("Invalid current leaderboard.");
+  if (
+    !Array.isArray(data.leaderboard) ||
+    data.leaderboard.length !== data.history.length ||
+    data.leaderboard.some((snapshot, index) => (
+      snapshot.day !== data.history[index].day ||
+      !Array.isArray(snapshot.leaders) ||
+      snapshot.leaders.some((leader) => (
+        typeof leader.name !== "string" ||
+        typeof leader.grade !== "string" ||
+        !Number.isInteger(leader.totalPoints)
+      ))
+    ))
+  ) {
+    throw new Error("Invalid daily leaderboard history.");
   }
 }
 
@@ -459,7 +476,7 @@ async function loadLeaderboard() {
     if (signature !== lastDataSignature) {
       renderDailyHistory(data);
       renderHistoryBars(data);
-      renderStudentLeaderboard(data.leaderboard);
+      renderStudentLeaderboard(data.leaderboard.at(-1).leaders);
       lastDataSignature = signature;
     }
     //renderChart(data.history);
