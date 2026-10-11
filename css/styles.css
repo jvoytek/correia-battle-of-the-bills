@@ -77,21 +77,25 @@ body {
 
 .chart-panel {
   position: absolute;
-  width: 21%;
-  left: 39%;
-  top: 56%;
-  font-size: clamp(0.01rem, 0.7vw + 1rem, 6rem);
+  width: 22%;
+  left: 40%;
+  top: 57%;
+  font-size: clamp(0.01rem, 0.3vw + 1rem, 6rem);
+  color: #000;
 }
 
 .chart-panel table {
   width: 100%;
   border-collapse: collapse;
   border-spacing: 0;
+  border-style: hidden;
+
 }
 
 .chart-panel table td,
 .chart-panel table th {
   padding: 0.25rem 0.5rem;
+  border: 1px solid #000;
 }
 
 .chart-header,
@@ -114,10 +118,19 @@ body {
   height: 100%;
 }
 
-#day-number {
-  margin: 0;
-  text-align: center;
-  font-weight: 700;
+
+#total-raised {
+  position: absolute;
+  top: 107%;
+  left: 0%;
+}
+
+#bar-chart-container {
+  position: absolute;
+  width: 62%;
+  height: 51%;
+  top: 112%;
+  left: 37%;
 }
 
 #history-chart {

@@ -1,7 +1,7 @@
 const DATA_PATH = "./data/leaderboard.json";
 const TEAM_ORDER = ["7th Grade", "8th Grade"];
-const DAILY_ANIMATION_SPEED = 1 / 3;
-const DAILY_ANIMATION_PAUSE_MS = 2000;
+const DAILY_ANIMATION_SPEED = 19 / 20;
+const DAILY_ANIMATION_PAUSE_MS = 1000;
 const TEAM_COLORS = {
   "7th Grade": { solid: "#1223b7", soft: "rgba(39, 198, 255, 0.18)" },
   "8th Grade": { solid: "#e10000", soft: "rgba(255, 141, 59, 0.18)" }
