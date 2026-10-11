@@ -115,6 +115,52 @@ function renderStudentLeaderboard(entries) {
   }
 }
 
+function renderHistoryBars(data) {
+  const container = document.getElementById("bar-chart-container");
+  if (!container) {
+    throw new Error("Missing history bar chart container.");
+  }
+
+  const maxValue = Math.max(
+    ...data.teams.flatMap((team) => data.historyByTeam[team.grade].totalPoints),
+    0
+  );
+  const chart = document.createElement("div");
+  chart.className = "history-bars";
+  chart.setAttribute("role", "img");
+  chart.setAttribute("aria-label", "Daily team total points bar chart");
+  const legend = document.createElement("div");
+  legend.className = "history-bar-legend";
+  legend.textContent = "7th Grade  •  8th Grade";
+  const bars = [];
+
+  data.history.forEach((day, index) => {
+    const group = document.createElement("div");
+    group.className = "history-bar-group";
+    group.setAttribute("aria-label", `Day ${day.day}`);
+
+    data.teams.forEach((team) => {
+      const bar = document.createElement("span");
+      const value = data.historyByTeam[team.grade].totalPoints[index];
+      bar.className = `history-bar ${team.grade.startsWith("7th") ? "history-bar-7th" : "history-bar-8th"}`;
+      bar.style.height = "0%";
+      bar.dataset.height = String(maxValue ? (value / maxValue) * 100 : 0);
+      bar.title = `${team.grade}: ${formatNumber(value)} points`;
+      group.appendChild(bar);
+      bars.push(bar);
+    });
+
+    chart.appendChild(group);
+  });
+
+  container.replaceChildren(legend, chart);
+  requestAnimationFrame(() => {
+    bars.forEach((bar) => {
+      bar.style.height = `${bar.dataset.height}%`;
+    });
+  });
+}
+
 function renderDailyHistory(data) {
   const dayNumber = document.getElementById("day-number");
   if (!dayNumber) {
@@ -159,6 +205,13 @@ function renderDailyHistory(data) {
         }
         element.textContent = formatNumber(value);
       });
+      const raised = data.history[intervalIndex]["total-raised"];
+      const raisedNext = data.history[Math.min(intervalIndex + 1, historyLength - 1)]["total-raised"];
+      const schoolTotal = document.getElementById("school-total");
+      if (!schoolTotal) {
+        throw new Error("Missing school total element.");
+      }
+      schoolTotal.textContent = `$${formatNumber(Math.round(raised + (raisedNext - raised) * progress))}`;
       return values;
     });
 
@@ -370,6 +423,9 @@ function validateDataShape(data) {
   ) {
     throw new Error("Leaderboard data is missing one or more required arrays.");
   }
+  if (data.history.some((day) => !Number.isInteger(day["total-raised"]))) {
+    throw new Error("Daily history is missing a valid total-raised value.");
+  }
 
   const metrics = ["totalPoints", "online", "pennies", "bonus", "sabotage"];
   data.teams.forEach((team) => {
@@ -402,6 +458,7 @@ async function loadLeaderboard() {
     const signature = JSON.stringify(data);
     if (signature !== lastDataSignature) {
       renderDailyHistory(data);
+      renderHistoryBars(data);
       renderStudentLeaderboard(data.leaderboard);
       lastDataSignature = signature;
     }
