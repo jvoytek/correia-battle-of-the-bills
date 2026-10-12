@@ -1,10 +1,10 @@
 const DATA_PATH = "./data/leaderboard.json";
-const TEAM_ORDER = ["7th Grade", "8th Grade"];
+const TEAM_ORDER = ["7th", "8th"];
 const DAILY_ANIMATION_SPEED = 19 / 20;
 const DAILY_ANIMATION_PAUSE_MS = 1000;
 const TEAM_COLORS = {
-  "7th Grade": { solid: "#1223b7", soft: "rgba(39, 198, 255, 0.18)" },
-  "8th Grade": { solid: "#e10000", soft: "rgba(255, 141, 59, 0.18)" }
+  "7th": { solid: "#1223b7", soft: "rgba(39, 198, 255, 0.18)" },
+  "8th": { solid: "#e10000", soft: "rgba(255, 141, 59, 0.18)" }
 };
 
 let chartHistory = [];
@@ -16,6 +16,25 @@ let historyBars = new Map();
 let historyBarMax = 0;
 const leaderboardNodes = new Map();
 let leaderboardOrder = "";
+
+const TEAM_BACKGROUNDS = {
+  "7th": "url(\"../assets/BotB-Leaderboard-Background-7th.png\")",
+  "8th": "url(\"../assets/BotB-Leaderboard-Background-8th.png\")"
+};
+
+function setLeaderboardFrameBackground(grade) {
+  const frame = document.querySelector(".leaderboard-frame");
+  if (!frame) {
+    return;
+  }
+
+  const backgroundImage = TEAM_BACKGROUNDS[grade];
+  if (!backgroundImage) {
+    return;
+  }
+
+  frame.style.setProperty("--frame-background-image", backgroundImage);
+}
 
 const formatNumber = (value) => new Intl.NumberFormat("en-US").format(value);
 
@@ -41,7 +60,6 @@ function renderStandings(teams) {
     if (!team) {
       return;
     }
-
     const totalElement = document.querySelector(`[data-total-for="${grade}"]`);
     //const rankElement = document.querySelector(`[data-rank-for="${grade}"]`);
     const cardElement = document.querySelector(`[data-team-card="${grade}"]`);
@@ -188,6 +206,11 @@ function renderDailyHistory(data) {
       lastDayIndex = dayIndex;
     }
 
+    const currentIndex = Math.max(0, Math.min(intervalIndex, historyLength - 1));
+    const nextIndex = Math.min(currentIndex + 1, historyLength - 1);
+    const currentSnapshot = data.history[currentIndex];
+    const nextSnapshot = data.history[nextIndex];
+
     const teams = data.teams.map((team) => {
       const history = data.historyByTeam[team.grade];
       const values = { grade: team.grade };
@@ -203,8 +226,8 @@ function renderDailyHistory(data) {
         }
         element.textContent = formatNumber(value);
       });
-      const raised = data.history[intervalIndex]["total-raised"];
-      const raisedNext = data.history[Math.min(intervalIndex + 1, historyLength - 1)]["total-raised"];
+      const raised = currentSnapshot["total-raised"];
+      const raisedNext = nextSnapshot["total-raised"];
       const schoolTotal = document.getElementById("school-total");
       if (!schoolTotal) {
         throw new Error("Missing school total element.");
@@ -216,10 +239,17 @@ function renderDailyHistory(data) {
     historyBars.forEach((bar, grade) => {
       const team = teams.find((entry) => entry.grade === grade);
       const value = team.totalPoints;
-      bar.style.height = `${historyBarMax ? (value / historyBarMax) * 100 : 0}%`;
+      bar.style.height = `${historyBarMax ? (value / historyBarMax) * 85 : 0}%`;
       bar.title = `${grade}: ${formatNumber(value)} points`;
       bar.parentElement?.setAttribute("aria-label", `${grade}: ${formatNumber(value)} points`);
     });
+
+    if (dayChanged) {
+      const leadingTeam = teams.reduce((currentLeader, team) => (
+        team.totalPoints >= currentLeader.totalPoints ? team : currentLeader
+      ));
+      setLeaderboardFrameBackground(leadingTeam.grade);
+    }
 
     renderStandings(teams);
     if (dayChanged) {
@@ -468,12 +498,12 @@ function validateDataShape(data) {
   }
 }
 
-async function loadLeaderboard() {
+async function loadLeaderboard({ forceRerender = false } = {}) {
   try {
     const data = await fetchLeaderboardData();
     validateDataShape(data);
     const signature = JSON.stringify(data);
-    if (signature !== lastDataSignature) {
+    if (forceRerender || signature !== lastDataSignature) {
       renderDailyHistory(data);
       renderHistoryBars(data);
       renderStudentLeaderboard(data.leaderboard.at(-1).leaders);
@@ -522,5 +552,10 @@ async function scheduleRefresh() {
 
 window.addEventListener("DOMContentLoaded", async () => {
   await loadLeaderboard();
+  await scheduleRefresh();
+});
+
+window.addEventListener("click", async () => {
+  await loadLeaderboard({ forceRerender: true });
   await scheduleRefresh();
 });

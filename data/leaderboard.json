@@ -2,16 +2,16 @@
   "lastUpdated": "2026-09-22 10:00 AM",
   "teams": [
     {
-      "grade": "7th Grade",
-      "totalPoints": 1704131,
+      "grade": "7th",
+      "totalPoints": 478000,
       "online": 1647234,
       "pennies": 643,
       "bonus": 2463,
       "sabotage": -24582
     },
     {
-      "grade": "8th Grade",
-      "totalPoints": 1705432,
+      "grade": "8th",
+      "totalPoints": 463000,
       "online": 1686742,
       "pennies": 743,
       "bonus": 2945,
@@ -19,61 +19,129 @@
     }
   ],
   "history": [
-    {"day":"1","7th":42000,"8th":51000,"total-raised":93000},
-    {"day":"2","7th":98000,"8th":87000,"total-raised":185000},
-    {"day":"3","7th":145000,"8th":132000,"total-raised":277000},
-    {"day":"4","7th":218000,"8th":205000,"total-raised":423000},
-    {"day":"5","7th":276000,"8th":291000,"total-raised":567000},
-    {"day":"6","7th":348000,"8th":337000,"total-raised":685000},
-    {"day":"7","7th":401000,"8th":419000,"total-raised":820000},
-    {"day":"8","7th":478000,"8th":463000,"total-raised":941000},
-    {"day":"9","7th":539000,"8th":552000,"total-raised":1091000},
-    {"day":"10","7th":621000,"8th":608000,"total-raised":1229000},
-    {"day":"11","7th":687000,"8th":674000,"total-raised":1361000},
-    {"day":"12","7th":751000,"8th":769000,"total-raised":1520000},
-    {"day":"13","7th":826000,"8th":814000,"total-raised":1640000},
-    {"day":"14","7th":899000,"8th":907000,"total-raised":1806000},
-    {"day":"15","7th":1032000,"8th":1018000,"total-raised":2050000},
-    {"day":"16","7th":1184000,"8th":1169000,"total-raised":2353000},
-    {"day":"17","7th":1362000,"8th":1348000,"total-raised":2710000},
-    {"day":"18","7th":1539000,"8th":1527000,"total-raised":3066000},
-    {"day":"19","7th":1704131,"8th":1705432,"total-raised":3409563}
+    {"day":"1","7th":42000,"8th":51000,"total-raised":930},
+    {"day":"2","7th":98000,"8th":87000,"total-raised":1850},
+    {"day":"3","7th":145000,"8th":132000,"total-raised":2770},
+    {"day":"4","7th":218000,"8th":205000,"total-raised":4230},
+    {"day":"5","7th":276000,"8th":291000,"total-raised":5670},
+    {"day":"6","7th":348000,"8th":337000,"total-raised":6850},
+    {"day":"7","7th":401000,"8th":419000,"total-raised":8200},
+    {"day":"8","7th":478000,"8th":463000,"total-raised":9410}
   ],
   "historyByTeam": {
-    "7th Grade": {
-      "totalPoints": [42000,98000,145000,218000,276000,348000,401000,478000,539000,621000,687000,751000,826000,899000,1032000,1184000,1362000,1539000,1704131],
-      "online": [40696,94958,140499,211234,267433,337198,388553,463163,522270,601725,665676,727690,800362,871096,999968,1147250,1319725,1491231,1647234],
-      "pennies": [16,37,55,82,104,132,152,181,204,235,260,284,312,340,390,448,515,582,643],
-      "bonus": [61,142,210,316,400,504,581,693,781,900,995,1088,1197,1302,1495,1715,1973,2230,2463],
-      "sabotage": [-607,-1417,-2097,-3152,-3991,-5032,-5798,-6912,-7794,-8980,-9934,-10859,-11944,-13000,-14923,-17121,-19695,-22254,-24582]
+    "7th": {
+      "totalPoints": [
+        42000,
+        98000,
+        145000,
+        218000,
+        276000,
+        348000,
+        401000,
+        478000
+      ],
+      "online": [
+        40696,
+        94958,
+        140499,
+        211234,
+        267433,
+        337198,
+        388553,
+        463163
+      ],
+      "pennies": [
+        16,
+        37,
+        55,
+        82,
+        104,
+        132,
+        152,
+        181
+      ],
+      "bonus": [
+        61,
+        142,
+        210,
+        316,
+        400,
+        504,
+        581,
+        693
+      ],
+      "sabotage": [
+        -607,
+        -1417,
+        -2097,
+        -3152,
+        -3991,
+        -5032,
+        -5798,
+        -6912
+      ]
     },
-    "8th Grade": {
-      "totalPoints": [51000,87000,132000,205000,291000,337000,419000,463000,552000,608000,674000,769000,814000,907000,1018000,1169000,1348000,1527000,1705432],
-      "online": [50602,86322,130971,203401,288731,334372,415732,459389,547695,603258,668744,763003,807652,899926,1010061,1159883,1337487,1515091,1686742],
-      "pennies": [22,38,58,90,127,147,183,202,241,266,295,336,356,396,445,511,589,667,743],
-      "bonus": [88,151,229,355,504,584,726,802,956,1053,1168,1332,1410,1571,1764,2025,2335,2645,2945],
-      "sabotage": [-115,-197,-299,-464,-659,-763,-948,-1048,-1249,-1376,-1526,-1741,-1843,-2053,-2304,-2646,-3051,-3456,-3848]
+    "8th": {
+      "totalPoints": [
+        51000,
+        87000,
+        132000,
+        205000,
+        291000,
+        337000,
+        419000,
+        463000
+      ],
+      "online": [
+        50602,
+        86322,
+        130971,
+        203401,
+        288731,
+        334372,
+        415732,
+        459389
+      ],
+      "pennies": [
+        22,
+        38,
+        58,
+        90,
+        127,
+        147,
+        183,
+        202
+      ],
+      "bonus": [
+        88,
+        151,
+        229,
+        355,
+        504,
+        584,
+        726,
+        802
+      ],
+      "sabotage": [
+        -115,
+        -197,
+        -299,
+        -464,
+        -659,
+        -763,
+        -948,
+        -1048
+      ]
     }
   },
   "leaderboard": [
-    {"day":"1","leaders":[{"name":"Jenny Q.","grade":"(8th)","totalPoints":103274},{"name":"Johnny Q.","grade":"(7th)","totalPoints":10754},{"name":"Suzie Q.","grade":"(7th)","totalPoints":3034},{"name":"Louise Q.","grade":"(8th)","totalPoints":2559},{"name":"Cambria Q.","grade":"(7th)","totalPoints":577}]},
+    {"day":"1","leaders":[{"name":"Johnny Q.","grade":"(7th)","totalPoints":103274},{"name":"Jenny Q.","grade":"(8th)","totalPoints":102900},{"name":"Suzie Q.","grade":"(7th)","totalPoints":3034},{"name":"Louise Q.","grade":"(8th)","totalPoints":2559},{"name":"Cambria Q.","grade":"(7th)","totalPoints":577}]},
     {"day":"2","leaders":[{"name":"Jenny Q.","grade":"(8th)","totalPoints":176173},{"name":"Johnny Q.","grade":"(7th)","totalPoints":25093},{"name":"Suzie Q.","grade":"(7th)","totalPoints":7080},{"name":"Louise Q.","grade":"(8th)","totalPoints":4365},{"name":"Cambria Q.","grade":"(7th)","totalPoints":1347}]},
-    {"day":"3","leaders":[{"name":"Jenny Q.","grade":"(8th)","totalPoints":267296},{"name":"Johnny Q.","grade":"(7th)","totalPoints":37127},{"name":"Suzie Q.","grade":"(7th)","totalPoints":10476},{"name":"Louise Q.","grade":"(8th)","totalPoints":6623},{"name":"Cambria Q.","grade":"(7th)","totalPoints":1993}]},
+    {"day":"3","leaders":[{"name":"Johnny Q.","grade":"(7th)","totalPoints":267400},{"name":"Jenny Q.","grade":"(8th)","totalPoints":267296},{"name":"Suzie Q.","grade":"(7th)","totalPoints":10476},{"name":"Louise Q.","grade":"(8th)","totalPoints":6623},{"name":"Cambria Q.","grade":"(7th)","totalPoints":1993}]},
     {"day":"4","leaders":[{"name":"Jenny Q.","grade":"(8th)","totalPoints":415119},{"name":"Johnny Q.","grade":"(7th)","totalPoints":55819},{"name":"Suzie Q.","grade":"(7th)","totalPoints":15750},{"name":"Louise Q.","grade":"(8th)","totalPoints":10286},{"name":"Cambria Q.","grade":"(7th)","totalPoints":2996}]},
-    {"day":"5","leaders":[{"name":"Jenny Q.","grade":"(8th)","totalPoints":589267},{"name":"Johnny Q.","grade":"(7th)","totalPoints":70670},{"name":"Suzie Q.","grade":"(7th)","totalPoints":19941},{"name":"Louise Q.","grade":"(8th)","totalPoints":14600},{"name":"Cambria Q.","grade":"(7th)","totalPoints":3794}]},
+    {"day":"5","leaders":[{"name":"Louise Q.","grade":"(8th)","totalPoints":589800},{"name":"Jenny Q.","grade":"(8th)","totalPoints":589267},{"name":"Johnny Q.","grade":"(7th)","totalPoints":589500},{"name":"Suzie Q.","grade":"(7th)","totalPoints":19941},{"name":"Cambria Q.","grade":"(7th)","totalPoints":3794}]},
     {"day":"6","leaders":[{"name":"Jenny Q.","grade":"(8th)","totalPoints":682416},{"name":"Johnny Q.","grade":"(7th)","totalPoints":89105},{"name":"Suzie Q.","grade":"(7th)","totalPoints":25143},{"name":"Louise Q.","grade":"(8th)","totalPoints":16908},{"name":"Cambria Q.","grade":"(7th)","totalPoints":4783}]},
-    {"day":"7","leaders":[{"name":"Jenny Q.","grade":"(8th)","totalPoints":848464},{"name":"Johnny Q.","grade":"(7th)","totalPoints":102676},{"name":"Suzie Q.","grade":"(7th)","totalPoints":28972},{"name":"Louise Q.","grade":"(8th)","totalPoints":21023},{"name":"Cambria Q.","grade":"(7th)","totalPoints":5512}]},
-    {"day":"8","leaders":[{"name":"Jenny Q.","grade":"(8th)","totalPoints":937562},{"name":"Johnny Q.","grade":"(7th)","totalPoints":122392},{"name":"Suzie Q.","grade":"(7th)","totalPoints":34535},{"name":"Louise Q.","grade":"(8th)","totalPoints":23230},{"name":"Cambria Q.","grade":"(7th)","totalPoints":6570}]},
-    {"day":"9","leaders":[{"name":"Jenny Q.","grade":"(8th)","totalPoints":1117785},{"name":"Johnny Q.","grade":"(7th)","totalPoints":138011},{"name":"Suzie Q.","grade":"(7th)","totalPoints":38943},{"name":"Louise Q.","grade":"(8th)","totalPoints":27696},{"name":"Cambria Q.","grade":"(7th)","totalPoints":7408}]},
-    {"day":"10","leaders":[{"name":"Jenny Q.","grade":"(8th)","totalPoints":1231183},{"name":"Johnny Q.","grade":"(7th)","totalPoints":159007},{"name":"Suzie Q.","grade":"(7th)","totalPoints":44867},{"name":"Louise Q.","grade":"(8th)","totalPoints":30505},{"name":"Cambria Q.","grade":"(7th)","totalPoints":8536}]},
-    {"day":"11","leaders":[{"name":"Jenny Q.","grade":"(8th)","totalPoints":1364832},{"name":"Johnny Q.","grade":"(7th)","totalPoints":175906},{"name":"Suzie Q.","grade":"(7th)","totalPoints":49636},{"name":"Louise Q.","grade":"(8th)","totalPoints":33817},{"name":"Cambria Q.","grade":"(7th)","totalPoints":9443}]},
-    {"day":"12","leaders":[{"name":"Jenny Q.","grade":"(8th)","totalPoints":1557204},{"name":"Johnny Q.","grade":"(7th)","totalPoints":192294},{"name":"Suzie Q.","grade":"(7th)","totalPoints":54260},{"name":"Louise Q.","grade":"(8th)","totalPoints":38583},{"name":"Cambria Q.","grade":"(7th)","totalPoints":10322}]},
-    {"day":"13","leaders":[{"name":"Jenny Q.","grade":"(8th)","totalPoints":1648328},{"name":"Johnny Q.","grade":"(7th)","totalPoints":211497},{"name":"Suzie Q.","grade":"(7th)","totalPoints":59678},{"name":"Louise Q.","grade":"(8th)","totalPoints":40841},{"name":"Cambria Q.","grade":"(7th)","totalPoints":11353}]},
-    {"day":"14","leaders":[{"name":"Jenny Q.","grade":"(8th)","totalPoints":1836650},{"name":"Johnny Q.","grade":"(7th)","totalPoints":230189},{"name":"Suzie Q.","grade":"(7th)","totalPoints":64953},{"name":"Louise Q.","grade":"(8th)","totalPoints":45507},{"name":"Cambria Q.","grade":"(7th)","totalPoints":12357}]},
-    {"day":"15","leaders":[{"name":"Jenny Q.","grade":"(8th)","totalPoints":2061422},{"name":"Johnny Q.","grade":"(7th)","totalPoints":264244},{"name":"Suzie Q.","grade":"(7th)","totalPoints":74562},{"name":"Louise Q.","grade":"(8th)","totalPoints":51076},{"name":"Cambria Q.","grade":"(7th)","totalPoints":14185}]},
-    {"day":"16","leaders":[{"name":"Jenny Q.","grade":"(8th)","totalPoints":2367193},{"name":"Johnny Q.","grade":"(7th)","totalPoints":303163},{"name":"Suzie Q.","grade":"(7th)","totalPoints":85544},{"name":"Louise Q.","grade":"(8th)","totalPoints":58652},{"name":"Cambria Q.","grade":"(7th)","totalPoints":16274}]},
-    {"day":"17","leaders":[{"name":"Jenny Q.","grade":"(8th)","totalPoints":2729663},{"name":"Johnny Q.","grade":"(7th)","totalPoints":348740},{"name":"Suzie Q.","grade":"(7th)","totalPoints":98404},{"name":"Louise Q.","grade":"(8th)","totalPoints":67633},{"name":"Cambria Q.","grade":"(7th)","totalPoints":18720}]},
-    {"day":"18","leaders":[{"name":"Jenny Q.","grade":"(8th)","totalPoints":3092133},{"name":"Johnny Q.","grade":"(7th)","totalPoints":394061},{"name":"Suzie Q.","grade":"(7th)","totalPoints":111192},{"name":"Louise Q.","grade":"(8th)","totalPoints":76614},{"name":"Cambria Q.","grade":"(7th)","totalPoints":21153}]},
-    {"day":"19","leaders":[{"name":"Jenny Q.","grade":"(8th)","totalPoints":3453453},{"name":"Johnny Q.","grade":"(7th)","totalPoints":436343},{"name":"Suzie Q.","grade":"(7th)","totalPoints":123123},{"name":"Louise Q.","grade":"(8th)","totalPoints":85567},{"name":"Cambria Q.","grade":"(7th)","totalPoints":23423}]}
+    {"day":"7","leaders":[{"name":"Johnny Q.","grade":"(7th)","totalPoints":848700},{"name":"Jenny Q.","grade":"(8th)","totalPoints":848464},{"name":"Suzie Q.","grade":"(7th)","totalPoints":28972},{"name":"Louise Q.","grade":"(8th)","totalPoints":21023},{"name":"Cambria Q.","grade":"(7th)","totalPoints":5512}]},
+    {"day":"8","leaders":[{"name":"Louise Q.","grade":"(8th)","totalPoints":937800},{"name":"Jenny Q.","grade":"(8th)","totalPoints":937562},{"name":"Johnny Q.","grade":"(7th)","totalPoints":122392},{"name":"Suzie Q.","grade":"(7th)","totalPoints":34535},{"name":"Cambria Q.","grade":"(7th)","totalPoints":6570}]}
   ]
 }

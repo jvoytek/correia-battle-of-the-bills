@@ -6,9 +6,9 @@
   --line: rgba(255, 255, 255, 0.14);
   --text: #f7fbff;
   --muted: #b3c7db;
-  --seven: #27c6ff;
+  --seven: #006caf;
   --seven-soft: rgba(39, 198, 255, 0.2);
-  --eight: #ff8d3b;
+  --eight: #a00000;
   --eight-soft: rgba(255, 141, 59, 0.22);
   --shadow: 0 1.25rem 3rem rgba(0, 0, 0, 0.35);
 }
@@ -48,8 +48,10 @@ body {
   content: "";
   position: absolute;
   inset: 0;
-  background:
-    url("../assets/BotB-Leaderboard-Background.png") center/cover no-repeat;
+  background-image: var(--frame-background-image, url("../assets/BotB-Leaderboard-Background.png"));
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
   z-index: -2;
 }
 
@@ -77,15 +79,16 @@ body {
 
 .chart-panel {
   position: absolute;
-  width: 22%;
-  left: 40%;
+  width: 24%;
+  left: 39%;
   top: 57%;
-  font-size: clamp(0.01rem, 0.3vw + 1rem, 6rem);
+  height: 32%;
+  font-size: clamp(0.01rem, 0.2vw + 1rem, 6rem);
   color: #000;
 }
 
 .chart-panel table {
-  width: 100%;
+  width: 74%;
   border-collapse: collapse;
   border-spacing: 0;
   border-style: hidden;
@@ -121,16 +124,18 @@ body {
 
 #total-raised {
   position: absolute;
-  top: 107%;
-  left: 0%;
+  top: 61%;
+  left: 15%;
+  font-size: clamp(0.01rem, 0.7vw + 1rem, 6rem);
+  font-weight: 800;
 }
 
 #bar-chart-container {
   position: absolute;
-  width: 62%;
-  height: 51%;
-  top: 112%;
-  left: 37%;
+  width: 26%;
+  height: 100%;
+  top: 0%;
+  left: 76%;
   display: flex;
   flex-direction: column;
 }
@@ -139,7 +144,6 @@ body {
   display: flex;
   align-items: stretch;
   justify-content: center;
-  gap: 1rem;
   width: 100%;
   height: 100%;
 }
@@ -149,12 +153,12 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: end;
-  width: 25%;
+  width: 46%;
   height: 100%;
 }
 
 .history-bar {
-  width: 65%;
+  width: 100%;
   min-height: 1px;
   transition: none;
 }
@@ -228,16 +232,7 @@ body {
 #student-leaderboard li:nth-child(4) { animation-delay: 450ms; }
 #student-leaderboard li:nth-child(5) { animation-delay: 600ms; }
 
-.student-rank {
 
-}
-
-.student-name {
-}
-
-.student-points {
-
-}
 
 .status-ticker {
   display: flex;
@@ -263,9 +258,6 @@ body {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
-}
-
-.is-leading {
 }
 
 @keyframes rise-in {
