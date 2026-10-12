@@ -6,9 +6,9 @@
   --line: rgba(255, 255, 255, 0.14);
   --text: #f7fbff;
   --muted: #b3c7db;
-  --seven: #27c6ff;
+  --seven: #006caf;
   --seven-soft: rgba(39, 198, 255, 0.2);
-  --eight: #ff8d3b;
+  --eight: #a00000;
   --eight-soft: rgba(255, 141, 59, 0.22);
   --shadow: 0 1.25rem 3rem rgba(0, 0, 0, 0.35);
 }
@@ -48,8 +48,10 @@ body {
   content: "";
   position: absolute;
   inset: 0;
-  background:
-    url("../assets/BotB-Leaderboard-Background.png") center/cover no-repeat;
+  background-image: var(--frame-background-image, url("../assets/BotB-Leaderboard-Background.png"));
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
   z-index: -2;
 }
 
@@ -77,21 +79,26 @@ body {
 
 .chart-panel {
   position: absolute;
-  width: 21%;
+  width: 24%;
   left: 39%;
-  top: 56%;
-  font-size: clamp(0.01rem, 0.7vw + 1rem, 6rem);
+  top: 57%;
+  height: 32%;
+  font-size: clamp(0.01rem, 0.2vw + 1rem, 6rem);
+  color: #000;
 }
 
 .chart-panel table {
-  width: 100%;
+  width: 74%;
   border-collapse: collapse;
   border-spacing: 0;
+  border-style: hidden;
+
 }
 
 .chart-panel table td,
 .chart-panel table th {
   padding: 0.25rem 0.5rem;
+  border: 1px solid #000;
 }
 
 .chart-header,
@@ -112,6 +119,61 @@ body {
   position: relative;
   min-height: 0;
   height: 100%;
+}
+
+
+#total-raised {
+  position: absolute;
+  top: 61%;
+  left: 15%;
+  font-size: clamp(0.01rem, 0.7vw + 1rem, 6rem);
+  font-weight: 800;
+}
+
+#bar-chart-container {
+  position: absolute;
+  width: 26%;
+  height: 100%;
+  top: 0%;
+  left: 76%;
+  display: flex;
+  flex-direction: column;
+}
+
+.history-bars {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.history-bar-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: end;
+  width: 46%;
+  height: 100%;
+}
+
+.history-bar {
+  width: 100%;
+  min-height: 1px;
+  transition: none;
+}
+
+.history-bar-label {
+  margin-top: 0.3rem;
+  font-size: 0.65em;
+}
+
+.history-bar-7th {
+  background: var(--seven);
+}
+
+.history-bar-8th {
+  background: var(--eight);
 }
 
 #history-chart {
@@ -170,16 +232,7 @@ body {
 #student-leaderboard li:nth-child(4) { animation-delay: 450ms; }
 #student-leaderboard li:nth-child(5) { animation-delay: 600ms; }
 
-.student-rank {
 
-}
-
-.student-name {
-}
-
-.student-points {
-
-}
 
 .status-ticker {
   display: flex;
@@ -205,9 +258,6 @@ body {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
-}
-
-.is-leading {
 }
 
 @keyframes rise-in {

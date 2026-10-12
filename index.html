@@ -13,12 +13,12 @@
 
       <!-- Score cards and lead differential update directly from leaderboard.json. -->
       <section class="scoreboard" aria-label="Team standings">
-        <article id="seventh-grade-team-card" data-team-card="7th Grade">
-          <p class="team-total" data-total-for="7th Grade">0</p>
+        <article id="seventh-grade-team-card" data-team-card="7th">
+          <p class="team-total" data-total-for="7th">0</p>
         </article>
 
-        <article id="eighth-grade-team-card" data-team-card="8th Grade">
-          <p class="team-total" data-total-for="8th Grade">0</p>
+        <article id="eighth-grade-team-card" data-team-card="8th">
+          <p class="team-total" data-total-for="8th">0</p>
         </article>
 
       </section>
@@ -26,17 +26,18 @@
       <!-- The chart canvas stays transparent so the background image remains visible below it. -->
       <section class="chart-panel" aria-label="Progress chart">
         <div class="chart-surface">
-          <table id="progress-chart" aria-hidden="true">
+          
+          <table id="progress-chart">
             <thead>
               <tr>
-                <th scope="col"></th>
+                <th scope="col" id="day-number" aria-live="off">Day 0</th>
                 <th scope="col">7th</th>
                 <th scope="col">8th</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>Online Points</td>
+                <td>Online</td>
                 <td id="online-7th">0</td>
                 <td id="online-8th">0</td>
               </tr>
@@ -46,7 +47,7 @@
                 <td id="pennies-8th">0</td>
               </tr>
               <tr>
-                <td>Bonus Points</td>
+                <td>Bonus</td>
                 <td id="bonus-7th">0</td>
                 <td id="bonus-8th">0</td>
               </tr>
@@ -63,11 +64,14 @@
             </tbody>
           </table>
 
-          <div style="text-align:center; margin-top:2rem">
+          <div id="total-raised" style="text-align:center; margin-top:2rem">
             Total Raised<br />
           <span id="school-total">$0.00</span>
           </div>
-        </div>
+
+          <div id="bar-chart-container">
+          </div>
+
         <p class="visually-hidden" id="chart-summary">
           Loading cumulative daily progress for 7th Grade and 8th Grade.
         </p>

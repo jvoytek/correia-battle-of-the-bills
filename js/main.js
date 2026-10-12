@@ -1,14 +1,40 @@
 const DATA_PATH = "./data/leaderboard.json";
-const TEAM_ORDER = ["7th Grade", "8th Grade"];
+const TEAM_ORDER = ["7th", "8th"];
+const DAILY_ANIMATION_SPEED = 19 / 20;
+const DAILY_ANIMATION_PAUSE_MS = 1000;
 const TEAM_COLORS = {
-  "7th Grade": { solid: "#1223b7", soft: "rgba(39, 198, 255, 0.18)" },
-  "8th Grade": { solid: "#e10000", soft: "rgba(255, 141, 59, 0.18)" }
+  "7th": { solid: "#1223b7", soft: "rgba(39, 198, 255, 0.18)" },
+  "8th": { solid: "#e10000", soft: "rgba(255, 141, 59, 0.18)" }
 };
 
 let chartHistory = [];
 let chartAnimationFrame;
+let dailyAnimationFrame;
 let refreshTimeoutId;
-const counterAnimations = new WeakMap();
+let lastDataSignature;
+let historyBars = new Map();
+let historyBarMax = 0;
+const leaderboardNodes = new Map();
+let leaderboardOrder = "";
+
+const TEAM_BACKGROUNDS = {
+  "7th": "url(\"../assets/BotB-Leaderboard-Background-7th.png\")",
+  "8th": "url(\"../assets/BotB-Leaderboard-Background-8th.png\")"
+};
+
+function setLeaderboardFrameBackground(grade) {
+  const frame = document.querySelector(".leaderboard-frame");
+  if (!frame) {
+    return;
+  }
+
+  const backgroundImage = TEAM_BACKGROUNDS[grade];
+  if (!backgroundImage) {
+    return;
+  }
+
+  frame.style.setProperty("--frame-background-image", backgroundImage);
+}
 
 const formatNumber = (value) => new Intl.NumberFormat("en-US").format(value);
 
@@ -22,73 +48,28 @@ async function fetchLeaderboardData() {
   return response.json();
 }
 
-function animateCounter(element, nextValue) {
-  const startValue = Number(element.dataset.value || 0);
-  const duration = 10000;
-  const startTime = performance.now();
-  const currentAnimation = counterAnimations.get(element);
-
-  if (currentAnimation) {
-    cancelAnimationFrame(currentAnimation);
-  }
-
-  const tick = (now) => {
-    const progress = Math.min((now - startTime) / duration, 1);
-    const eased = 1 - Math.pow(1 - progress, 3);
-    const currentValue = Math.round(startValue + (nextValue - startValue) * eased);
-    element.textContent = formatNumber(currentValue);
-
-    if (progress < 1) {
-      const nextAnimation = requestAnimationFrame(tick);
-      counterAnimations.set(element, nextAnimation);
-    } else {
-      element.dataset.value = String(nextValue);
-      counterAnimations.delete(element);
-    }
-  };
-
-  const nextAnimation = requestAnimationFrame(tick);
-  counterAnimations.set(element, nextAnimation);
-}
-
-function renderStandings(data) {
-  const teams = [...data.teams].sort((left, right) => right.totalPoints - left.totalPoints);
-  if (teams.length < 2) {
+function renderStandings(teams) {
+  const orderedTeams = [...teams].sort((left, right) => right.totalPoints - left.totalPoints);
+  if (orderedTeams.length < 2) {
     throw new Error("Leaderboard data must contain both grade teams.");
   }
-  const leader = teams[0];
-  const runnerUp = teams[1];
-  const differential = leader.totalPoints - runnerUp.totalPoints;
+  const leader = orderedTeams[0];
 
   TEAM_ORDER.forEach((grade) => {
-    const team = data.teams.find((entry) => entry.grade === grade);
+    const team = teams.find((entry) => entry.grade === grade);
     if (!team) {
       return;
     }
-
     const totalElement = document.querySelector(`[data-total-for="${grade}"]`);
     //const rankElement = document.querySelector(`[data-rank-for="${grade}"]`);
     const cardElement = document.querySelector(`[data-team-card="${grade}"]`);
     if (!totalElement || !cardElement) {
       throw new Error(`Missing scoreboard elements for ${grade}.`);
     }
-    //const rank = teams.findIndex((entry) => entry.grade === grade) + 1;
 
-    totalElement.dataset.value ??= "0";
-    animateCounter(totalElement, team.totalPoints);
-    //rankElement.textContent = `#${rank}`;
+    totalElement.textContent = formatNumber(team.totalPoints);
     cardElement.classList.toggle("is-leading", grade === leader.grade);
   });
-
-  /*const diffTotal = document.getElementById("diff-total");
-  const diffMeta = document.getElementById("diff-meta");
-  if (!diffTotal || !diffMeta) {
-    throw new Error("Missing lead differential elements.");
-  }
-
-  diffTotal.dataset.value ??= "0";
-  animateCounter(diffTotal, differential);
-  diffMeta.textContent = `${leader.grade} leads by ${formatNumber(differential)} points`;*/
 }
 
 function renderStatus(lastUpdated) {
@@ -121,30 +102,169 @@ function renderStudentLeaderboard(entries) {
     .sort((left, right) => right.totalPoints - left.totalPoints)
     .slice(0, 5);
 
-  list.innerHTML = "";
-
+  const nextOrder = topFive.map((entry) => `${entry.name}|${entry.grade}`).join("\n");
   topFive.forEach((entry, index) => {
-    const item = document.createElement("li");
-    const rank = document.createElement("span");
-    const details = document.createElement("span");
-    const name = document.createElement("strong");
-    const grade = document.createElement("span");
-    const points = document.createElement("span");
+    const key = `${entry.name}|${entry.grade}`;
+    let row = leaderboardNodes.get(key);
+    if (!row) {
+      const item = document.createElement("li");
+      const rank = document.createElement("span");
+      const details = document.createElement("span");
+      const name = document.createElement("strong");
+      const grade = document.createElement("span");
+      const points = document.createElement("span");
 
-    rank.className = "student-rank";
-    rank.textContent = `${index + 1}. `;
+      rank.className = "student-rank";
+      name.className = "student-name";
+      name.textContent = entry.name;
+      grade.textContent = ` ${entry.grade} `;
+      details.append(name, grade);
+      points.className = "student-points";
+      item.append(rank, details, points);
+      row = { item, rank, points };
+      leaderboardNodes.set(key, row);
+    }
 
-    name.className = "student-name";
-    name.textContent = entry.name;
-    grade.textContent = ` ${entry.grade} `;
-    details.append(name, grade);
-
-    points.className = "student-points";
-    points.textContent = formatNumber(entry.totalPoints);
-
-    item.append(rank, details, points);
-    list.appendChild(item);
+    row.rank.textContent = `${index + 1}. `;
+    row.points.textContent = formatNumber(entry.totalPoints);
   });
+
+  if (nextOrder !== leaderboardOrder) {
+    list.replaceChildren(...topFive.map((entry) => leaderboardNodes.get(`${entry.name}|${entry.grade}`).item));
+    leaderboardOrder = nextOrder;
+  }
+}
+
+function renderHistoryBars(data) {
+  const container = document.getElementById("bar-chart-container");
+  if (!container) {
+    throw new Error("Missing history bar chart container.");
+  }
+
+  historyBarMax = Math.max(
+    ...data.teams.flatMap((team) => data.historyByTeam[team.grade].totalPoints),
+    0
+  );
+  const chart = document.createElement("div");
+  chart.className = "history-bars";
+  chart.setAttribute("role", "img");
+  chart.setAttribute("aria-label", "Current day team total points");
+  historyBars = new Map();
+
+  TEAM_ORDER.forEach((grade) => {
+    const team = data.teams.find((entry) => entry.grade === grade);
+    if (!team) {
+      throw new Error(`Missing history for ${grade}.`);
+    }
+    const group = document.createElement("div");
+    const bar = document.createElement("span");
+    const label = document.createElement("span");
+    group.className = "history-bar-group";
+    bar.className = `history-bar ${team.grade.startsWith("7th") ? "history-bar-7th" : "history-bar-8th"}`;
+    bar.style.height = "0%";
+    bar.title = `${team.grade}: 0 points`;
+    label.className = "history-bar-label";
+    label.textContent = team.grade;
+    group.append(bar, label);
+    chart.appendChild(group);
+    historyBars.set(team.grade, bar);
+  });
+
+  container.replaceChildren(chart);
+  requestAnimationFrame(() => {
+    chart.classList.add("is-visible");
+  });
+}
+
+function renderDailyHistory(data) {
+  const dayNumber = document.getElementById("day-number");
+  if (!dayNumber) {
+    throw new Error("Missing day number display.");
+  }
+
+  const start = performance.now();
+  const historyLength = data.history.length;
+  let lastDayIndex = -1;
+  const update = (timestamp) => {
+    const intervalDuration = 1000 / DAILY_ANIMATION_SPEED;
+    const cycleDuration = intervalDuration + DAILY_ANIMATION_PAUSE_MS;
+    const elapsed = timestamp - start;
+    const intervalIndex = historyLength === 1
+      ? 0
+      : Math.min(Math.floor(elapsed / cycleDuration), historyLength - 2);
+    const intervalElapsed = elapsed - intervalIndex * cycleDuration;
+    const progress = Math.min(intervalElapsed / intervalDuration, 1);
+    const isFinished = historyLength === 1 ||
+      elapsed >= (historyLength - 2) * cycleDuration + intervalDuration;
+    const dayIndex = isFinished
+      ? historyLength - 1
+      : Math.min(intervalIndex + (intervalElapsed >= intervalDuration ? 1 : 0), historyLength - 1);
+
+    const dayChanged = dayIndex !== lastDayIndex;
+    if (dayChanged) {
+      dayNumber.textContent = `Day ${data.history[dayIndex].day}`;
+      lastDayIndex = dayIndex;
+    }
+
+    const currentIndex = Math.max(0, Math.min(intervalIndex, historyLength - 1));
+    const nextIndex = Math.min(currentIndex + 1, historyLength - 1);
+    const currentSnapshot = data.history[currentIndex];
+    const nextSnapshot = data.history[nextIndex];
+
+    const teams = data.teams.map((team) => {
+      const history = data.historyByTeam[team.grade];
+      const values = { grade: team.grade };
+      const suffix = team.grade.startsWith("7th") ? "7th" : "8th";
+      ["totalPoints", "online", "pennies", "bonus", "sabotage"].forEach((field) => {
+        const from = history[field][intervalIndex];
+        const to = history[field][Math.min(intervalIndex + 1, history[field].length - 1)];
+        const value = Math.round(from + (to - from) * progress);
+        values[field] = value;
+        const element = document.getElementById(`${field === "totalPoints" ? "total" : field}-${suffix}`);
+        if (!element) {
+          throw new Error(`Missing ${field} points element for ${team.grade}.`);
+        }
+        element.textContent = formatNumber(value);
+      });
+      const raised = currentSnapshot["total-raised"];
+      const raisedNext = nextSnapshot["total-raised"];
+      const schoolTotal = document.getElementById("school-total");
+      if (!schoolTotal) {
+        throw new Error("Missing school total element.");
+      }
+      schoolTotal.textContent = `$${formatNumber(Math.round(raised + (raisedNext - raised) * progress))}`;
+      return values;
+    });
+
+    historyBars.forEach((bar, grade) => {
+      const team = teams.find((entry) => entry.grade === grade);
+      const value = team.totalPoints;
+      bar.style.height = `${historyBarMax ? (value / historyBarMax) * 85 : 0}%`;
+      bar.title = `${grade}: ${formatNumber(value)} points`;
+      bar.parentElement?.setAttribute("aria-label", `${grade}: ${formatNumber(value)} points`);
+    });
+
+    if (dayChanged) {
+      const leadingTeam = teams.reduce((currentLeader, team) => (
+        team.totalPoints >= currentLeader.totalPoints ? team : currentLeader
+      ));
+      setLeaderboardFrameBackground(leadingTeam.grade);
+    }
+
+    renderStandings(teams);
+    if (dayChanged) {
+      renderStudentLeaderboard(data.leaderboard[dayIndex].leaders);
+    }
+
+    if (!isFinished) {
+      dailyAnimationFrame = requestAnimationFrame(update);
+    } else {
+      dailyAnimationFrame = undefined;
+    }
+  };
+
+  cancelAnimationFrame(dailyAnimationFrame);
+  dailyAnimationFrame = requestAnimationFrame(update);
 }
 
 function drawEmptyChartState(ctx, canvas, message) {
@@ -332,19 +452,65 @@ function renderChart(history) {
 }
 
 function validateDataShape(data) {
-  if (!data || !Array.isArray(data.teams) || !Array.isArray(data.history) || !Array.isArray(data.leaderboard)) {
+  if (
+    !data ||
+    !Array.isArray(data.teams) ||
+    !Array.isArray(data.history) ||
+    !data.history.length ||
+    !data.historyByTeam ||
+    !Array.isArray(data.leaderboard)
+  ) {
     throw new Error("Leaderboard data is missing one or more required arrays.");
+  }
+  if (data.history.some((day) => !Number.isInteger(day["total-raised"]))) {
+    throw new Error("Daily history is missing a valid total-raised value.");
+  }
+
+  const metrics = ["totalPoints", "online", "pennies", "bonus", "sabotage"];
+  data.teams.forEach((team) => {
+    const history = data.historyByTeam[team.grade];
+    if (!history || metrics.some((metric) => (
+      !Array.isArray(history[metric]) ||
+      history[metric].length !== data.history.length ||
+      history[metric].some((value) => !Number.isInteger(value))
+    ))) {
+      throw new Error(`Invalid daily points history for ${team.grade}.`);
+    }
+    if (history.totalPoints.at(-1) !== team.totalPoints) {
+      throw new Error(`Latest points history does not match ${team.grade}.`);
+    }
+  });
+
+  if (
+    !Array.isArray(data.leaderboard) ||
+    data.leaderboard.length !== data.history.length ||
+    data.leaderboard.some((snapshot, index) => (
+      snapshot.day !== data.history[index].day ||
+      !Array.isArray(snapshot.leaders) ||
+      snapshot.leaders.some((leader) => (
+        typeof leader.name !== "string" ||
+        typeof leader.grade !== "string" ||
+        !Number.isInteger(leader.totalPoints)
+      ))
+    ))
+  ) {
+    throw new Error("Invalid daily leaderboard history.");
   }
 }
 
-async function loadLeaderboard() {
+async function loadLeaderboard({ forceRerender = false } = {}) {
   try {
     const data = await fetchLeaderboardData();
     validateDataShape(data);
-    renderStandings(data);
+    const signature = JSON.stringify(data);
+    if (forceRerender || signature !== lastDataSignature) {
+      renderDailyHistory(data);
+      renderHistoryBars(data);
+      renderStudentLeaderboard(data.leaderboard.at(-1).leaders);
+      lastDataSignature = signature;
+    }
     //renderChart(data.history);
     //renderChartSummary(data);
-    renderStudentLeaderboard(data.leaderboard);
     renderStatus(data.lastUpdated);
   } catch (error) {
     console.error(error);
@@ -386,5 +552,10 @@ async function scheduleRefresh() {
 
 window.addEventListener("DOMContentLoaded", async () => {
   await loadLeaderboard();
+  await scheduleRefresh();
+});
+
+window.addEventListener("click", async () => {
+  await loadLeaderboard({ forceRerender: true });
   await scheduleRefresh();
 });
