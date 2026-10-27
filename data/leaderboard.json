@@ -1,58 +1,69 @@
 {
-  "lastUpdated": "2026-10-26 11:59 PM",
+  "lastUpdated": "2026-10-27 11:20 AM",
   "teams": [
     {
       "grade": "7th",
-      "totalPoints": 185500,
-      "online": 185500,
+      "totalPoints": 241500,
+      "online": 241500,
       "pennies": 0,
       "bonus": 0,
       "sabotage": 0
     },
     {
       "grade": "8th",
-      "totalPoints": 64500,
-      "online": 64500,
+      "totalPoints": 85500,
+      "online": 85500,
       "pennies": 0,
       "bonus": 0,
       "sabotage": 0
     }
   ],
   "history": [
-    {"day":"1","7th":185500,"8th":64500,"total-raised":2500}
+    {"day":"1","7th":185500,"8th":64500,"total-raised":2500},
+    {"day":"2","7th":241500,"8th":85500,"total-raised":3270}
   ],
   "historyByTeam": {
     "7th": {
       "totalPoints": [
-        185500
+        185500,
+        241500
       ],
       "online": [
-        185500
+        185500,
+        241500
       ],
       "pennies": [
+        0,
         0
       ],
       "bonus": [
+        0,
         0
       ],
       "sabotage": [
+        0,
         0
       ]
     },
     "8th": {
       "totalPoints": [
-        64500
+        64500,
+        85500
       ],
       "online": [
-        64500
+        64500,
+        85500
       ],
       "pennies": [
+        0,
         0
       ],
       "bonus": [
+        0,
         0
       ],
       "sabotage": [
+        0,
         0
       ]
     }
@@ -63,6 +74,14 @@
       {"name":"Mackenzie T.","grade":"(8th)","totalPoints":32000},
       {"name":"Evelyn R.","grade":"(8th)","totalPoints":30000},
       {"name":"Christopher A.","grade":"(7th)","totalPoints":25000},
-      {"name":"Mikayla B.","grade":"(7th)","totalPoints":19000}]}
-   ]
+      {"name":"Mikayla B.","grade":"(7th)","totalPoints":19000}]},
+    {"day":"2","leaders":[
+      {"name":"Mackenzie T.","grade":"(8th)","totalPoints":36000},
+      {"name":"Ava S.","grade":"(7th)","totalPoints":34500},
+      {"name":"Evelyn R.","grade":"(8th)","totalPoints":30000},
+      {"name":"Christopher A.","grade":"(7th)","totalPoints":25000},
+      {"name":"Linnea V.","grade":"(7th)","totalPoints":25000}
+      ]
+    }
+  ]
 }
