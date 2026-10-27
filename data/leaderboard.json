@@ -1,33 +1,33 @@
 {
-  "lastUpdated": "2026-10-26 10:00 AM",
+  "lastUpdated": "2026-10-26 5:00 PM",
   "teams": [
     {
       "grade": "7th",
-      "totalPoints": 57500,
-      "online": 57500,
+      "totalPoints": 185500,
+      "online": 185500,
       "pennies": 0,
       "bonus": 0,
       "sabotage": 0
     },
     {
       "grade": "8th",
-      "totalPoints": 25000,
-      "online": 25000,
+      "totalPoints": 64500,
+      "online": 64500,
       "pennies": 0,
       "bonus": 0,
       "sabotage": 0
     }
   ],
   "history": [
-    {"day":"1","7th":57500,"8th":25000,"total-raised":825}
+    {"day":"1","7th":185500,"8th":64500,"total-raised":2500}
   ],
   "historyByTeam": {
     "7th": {
       "totalPoints": [
-        57500
+        185500
       ],
       "online": [
-        57500
+        185500
       ],
       "pennies": [
         0
@@ -41,10 +41,10 @@
     },
     "8th": {
       "totalPoints": [
-        25000
+        64500
       ],
       "online": [
-        25000
+        64500
       ],
       "pennies": [
         0
@@ -59,10 +59,10 @@
   },
   "leaderboard": [
     {"day":"1","leaders":[
+      {"name":"Ava S.","grade":"(7th)","totalPoints":34500},
+      {"name":"Mackenzie T.","grade":"(8th)","totalPoints":32000},
+      {"name":"Evelyn R.","grade":"(8th)","totalPoints":30000},
       {"name":"Christopher A.","grade":"(7th)","totalPoints":25000},
-      {"name":"Mackenzie T.","grade":"(8th)","totalPoints":25000},
-      {"name":"Jackson T.","grade":"(7th)","totalPoints":16000},
-      {"name":"Blake B.","grade":"(7th)","totalPoints":10000},
-      {"name":"Syd B.","grade":"(7th)","totalPoints":5000}]}
+      {"name":"Mikayla B.","grade":"(7th)","totalPoints":19000}]}
    ]
 }
