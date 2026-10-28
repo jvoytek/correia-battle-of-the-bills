@@ -1,39 +1,39 @@
 {
-  "lastUpdated": "2026-10-28 9:30 AM",
+  "lastUpdated": "2026-10-28 2:00 PM",
   "teams": [
     {
       "grade": "7th",
-      "totalPoints": 296129,
-      "online": 296129,
+      "totalPoints": 342629,
+      "online": 334629,
       "pennies": 0,
-      "bonus": 0,
+      "bonus": 8000,
       "sabotage": 0
     },
     {
       "grade": "8th",
-      "totalPoints": 110000,
-      "online": 110000,
+      "totalPoints": 121000,
+      "online": 117000,
       "pennies": 0,
-      "bonus": 0,
+      "bonus": 4000,
       "sabotage": 0
     }
   ],
   "history": [
     {"day":"1","7th":185500,"8th":64500,"total-raised":2500},
     {"day":"2","7th":283629,"8th":107500,"total-raised":3911},
-    {"day":"3","7th":296129,"8th":110000,"total-raised":4061}
+    {"day":"3","7th":342629,"8th":121000,"total-raised":4516}
   ],
   "historyByTeam": {
     "7th": {
       "totalPoints": [
         185500,
         283629,
-        296129
+        342629
       ],
       "online": [
         185500,
         283629,
-        296129
+        334629
       ],
       "pennies": [
         0,
@@ -43,7 +43,7 @@
       "bonus": [
         0,
         0,
-        0
+        8000
       ],
       "sabotage": [
         0,
@@ -55,12 +55,12 @@
       "totalPoints": [
         64500,
         107500,
-        110000
+        121000
       ],
       "online": [
         64500,
         107500,
-        110000
+        117000
       ],
       "pennies": [
         0,
@@ -70,7 +70,7 @@
       "bonus": [
         0,
         0,
-        0
+        4000
       ],
       "sabotage": [
         0,
