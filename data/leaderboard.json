@@ -1,18 +1,18 @@
 {
-  "lastUpdated": "2026-10-27 9:30 PM",
+  "lastUpdated": "2026-10-28 9:30 AM",
   "teams": [
     {
       "grade": "7th",
-      "totalPoints": 283629,
-      "online": 283629,
+      "totalPoints": 296129,
+      "online": 296129,
       "pennies": 0,
       "bonus": 0,
       "sabotage": 0
     },
     {
       "grade": "8th",
-      "totalPoints": 107500,
-      "online": 107500,
+      "totalPoints": 110000,
+      "online": 110000,
       "pennies": 0,
       "bonus": 0,
       "sabotage": 0
@@ -20,27 +20,33 @@
   ],
   "history": [
     {"day":"1","7th":185500,"8th":64500,"total-raised":2500},
-    {"day":"2","7th":283629,"8th":107500,"total-raised":3911}
+    {"day":"2","7th":283629,"8th":107500,"total-raised":3911},
+    {"day":"3","7th":296129,"8th":110000,"total-raised":4061}
   ],
   "historyByTeam": {
     "7th": {
       "totalPoints": [
         185500,
-        283629
+        283629,
+        296129
       ],
       "online": [
         185500,
-        283629
+        283629,
+        296129
       ],
       "pennies": [
+        0,
         0,
         0
       ],
       "bonus": [
         0,
+        0,
         0
       ],
       "sabotage": [
+        0,
         0,
         0
       ]
@@ -48,21 +54,26 @@
     "8th": {
       "totalPoints": [
         64500,
-        107500
+        107500,
+        110000
       ],
       "online": [
         64500,
-        107500
+        107500,
+        110000
       ],
       "pennies": [
+        0,
         0,
         0
       ],
       "bonus": [
         0,
+        0,
         0
       ],
       "sabotage": [
+        0,
         0,
         0
       ]
@@ -80,8 +91,12 @@
       {"name":"Mackenzie T.","grade":"(8th)","totalPoints":36000},
       {"name":"Blake B.","grade":"(7th)","totalPoints":30000},
       {"name":"Evelyn R.","grade":"(8th)","totalPoints":30000},
-      {"name":"Linnea V.","grade":"(7th)","totalPoints":30000}
-      ]
-    }
+      {"name":"Linnea V.","grade":"(7th)","totalPoints":30000}]},
+    {"day":"3","leaders":[
+      {"name":"Ava S.","grade":"(7th)","totalPoints":39500},
+      {"name":"Mackenzie T.","grade":"(8th)","totalPoints":36000},
+      {"name":"Blake B.","grade":"(7th)","totalPoints":30000},
+      {"name":"Evelyn R.","grade":"(8th)","totalPoints":30000},
+      {"name":"Linnea V.","grade":"(7th)","totalPoints":30000}]}
   ]
 }
