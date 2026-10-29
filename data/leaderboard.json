@@ -1,18 +1,18 @@
 {
-  "lastUpdated": "2026-10-28 2:00 PM",
+  "lastUpdated": "2026-10-28 9:45 PM",
   "teams": [
     {
       "grade": "7th",
-      "totalPoints": 342629,
-      "online": 334629,
+      "totalPoints": 351629,
+      "online": 343629,
       "pennies": 0,
       "bonus": 8000,
       "sabotage": 0
     },
     {
       "grade": "8th",
-      "totalPoints": 121000,
-      "online": 117000,
+      "totalPoints": 140000,
+      "online": 136000,
       "pennies": 0,
       "bonus": 4000,
       "sabotage": 0
@@ -21,19 +21,19 @@
   "history": [
     {"day":"1","7th":185500,"8th":64500,"total-raised":2500},
     {"day":"2","7th":283629,"8th":107500,"total-raised":3911},
-    {"day":"3","7th":342629,"8th":121000,"total-raised":4516}
+    {"day":"3","7th":351629,"8th":140000,"total-raised":4796}
   ],
   "historyByTeam": {
     "7th": {
       "totalPoints": [
         185500,
         283629,
-        342629
+        351629
       ],
       "online": [
         185500,
         283629,
-        334629
+        343629
       ],
       "pennies": [
         0,
@@ -55,12 +55,12 @@
       "totalPoints": [
         64500,
         107500,
-        121000
+        140000
       ],
       "online": [
         64500,
         107500,
-        117000
+        136000
       ],
       "pennies": [
         0,
@@ -93,9 +93,9 @@
       {"name":"Evelyn R.","grade":"(8th)","totalPoints":30000},
       {"name":"Linnea V.","grade":"(7th)","totalPoints":30000}]},
     {"day":"3","leaders":[
+      {"name":"Mackenzie T.","grade":"(8th)","totalPoints":45000},
       {"name":"Ava S.","grade":"(7th)","totalPoints":39500},
-      {"name":"Mackenzie T.","grade":"(8th)","totalPoints":36000},
-      {"name":"Blake B.","grade":"(7th)","totalPoints":30000},
+      {"name":"Blake B.","grade":"(7th)","totalPoints":35000},
       {"name":"Evelyn R.","grade":"(8th)","totalPoints":30000},
       {"name":"Linnea V.","grade":"(7th)","totalPoints":30000}]}
   ]
