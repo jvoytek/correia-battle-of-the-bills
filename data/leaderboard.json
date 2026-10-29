@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10-29 10:20 AM",
+  "lastUpdated": "2026-10-29 1:00 PM",
   "teams": [
     {
       "grade": "7th",
@@ -11,8 +11,8 @@
     },
     {
       "grade": "8th",
-      "totalPoints": 140000,
-      "online": 136000,
+      "totalPoints": 145000,
+      "online": 141000,
       "pennies": 0,
       "bonus": 4000,
       "sabotage": 0
@@ -22,7 +22,7 @@
     {"day":"1","7th":185500,"8th":64500,"total-raised":2500},
     {"day":"2","7th":283629,"8th":107500,"total-raised":3911},
     {"day":"3","7th":351629,"8th":140000,"total-raised":4796},
-    {"day":"4","7th":375629,"8th":140000,"total-raised":5036}
+    {"day":"4","7th":375629,"8th":145000,"total-raised":5086}
   ],
   "historyByTeam": {
     "7th": {
@@ -62,13 +62,13 @@
         64500,
         107500,
         140000,
-        140000
+        145000
       ],
       "online": [
         64500,
         107500,
         136000,
-        136000
+        141000
       ],
       "pennies": [
         0,
