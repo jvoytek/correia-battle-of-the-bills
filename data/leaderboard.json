@@ -3,16 +3,16 @@
   "teams": [
     {
       "grade": "7th",
-      "totalPoints": 466129,
-      "online": 426129,
+      "totalPoints": 492629,
+      "online": 452629,
       "pennies": 0,
       "bonus": 40000,
       "sabotage": 0
     },
     {
       "grade": "8th",
-      "totalPoints": 151000,
-      "online": 147000,
+      "totalPoints": 153500,
+      "online": 149500,
       "pennies": 0,
       "bonus": 4000,
       "sabotage": 0
@@ -23,7 +23,11 @@
     {"day":"2","7th":283629,"8th":107500,"total-raised":3911},
     {"day":"3","7th":351629,"8th":140000,"total-raised":4796},
     {"day":"4","7th":405629,"8th":151000,"total-raised":5446},
-    {"day":"5","7th":426129,"8th":151000,"total-raised":5731}
+    {"day":"5","7th":466129,"8th":153500,"total-raised":5756},
+    {"day":"6","7th":490629,"8th":153500,"total-raised":6001},
+    {"day":"7","7th":492629,"8th":153500,"total-raised":6021}
+
+
   ],
   "historyByTeam": {
     "7th": {
@@ -32,16 +36,22 @@
         283629,
         351629,
         405629,
-        466129
+        466129,
+        490629,
+        492629
       ],
       "online": [
         185500,
         283629,
         343629,
         397629,
-        426129
+        426129,
+        450629,
+        452629
       ],
       "pennies": [
+        0,
+        0,
         0,
         0,
         0,
@@ -53,9 +63,13 @@
         0,
         8000,
         8000,
+        40000,
+        40000,
         40000
       ],
       "sabotage": [
+        0,
+        0,
         0,
         0,
         0,
@@ -69,16 +83,22 @@
         107500,
         140000,
         151000,
-        151000
+        153500,
+        153500,
+        153500
       ],
       "online": [
         64500,
         107500,
         136000,
         147000,
-        147000
+        149500,
+        149500,
+        149500
       ],
       "pennies": [
+        0,
+        0,
         0,
         0,
         0,
@@ -90,9 +110,13 @@
         0,
         4000,
         4000,
+        4000,
+        4000,
         4000
       ],
       "sabotage": [
+        0,
+        0,
         0,
         0,
         0,
@@ -130,6 +154,18 @@
       {"name":"Mackenzie T.","grade":"(8th)","totalPoints":45000},
       {"name":"Linnea V.","grade":"(7th)","totalPoints":40000},
       {"name":"Ava S.","grade":"(7th)","totalPoints":39500},
+      {"name":"Blake B.","grade":"(7th)","totalPoints":36500},
+      {"name":"Charlotte G.","grade":"(8th)","totalPoints":32500}]},
+    {"day":"6","leaders":[
+      {"name":"Ava S.","grade":"(7th)","totalPoints":47000},
+      {"name":"Mackenzie T.","grade":"(8th)","totalPoints":45000},
+      {"name":"Linnea V.","grade":"(7th)","totalPoints":40000},
+      {"name":"Blake B.","grade":"(7th)","totalPoints":36500},
+      {"name":"Charlotte G.","grade":"(8th)","totalPoints":32500}]},
+    {"day":"7","leaders":[
+      {"name":"Ava S.","grade":"(7th)","totalPoints":47000},
+      {"name":"Mackenzie T.","grade":"(8th)","totalPoints":45000},
+      {"name":"Linnea V.","grade":"(7th)","totalPoints":40000},
       {"name":"Blake B.","grade":"(7th)","totalPoints":36500},
       {"name":"Charlotte G.","grade":"(8th)","totalPoints":32500}]}
   ]
