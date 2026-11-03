@@ -28,9 +28,6 @@
     {"day":"7","7th":507629,"8th":157000,"total-raised":6206},
     {"day":"8","7th":555129,"8th":157000,"total-raised":6681},
     {"day":"9","7th":572629,"8th":157000,"total-raised":6856}
-
-
-
   ],
   "historyByTeam": {
     "7th": {
@@ -203,6 +200,6 @@
       {"name":"Ava S.","grade":"(7th)","totalPoints":47000},
       {"name":"Mackenzie T.","grade":"(8th)","totalPoints":45000},
       {"name":"Tallulah H.","grade":"(7th)","totalPoints":435000},
-      {"name":"Linnea V.","grade":"(7th)","totalPoints":40000}
+      {"name":"Linnea V.","grade":"(7th)","totalPoints":40000}]}
   ]
 }
