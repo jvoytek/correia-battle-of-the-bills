@@ -1,18 +1,18 @@
 {
-  "lastUpdated": "2026-11-3 1:45 PM",
+  "lastUpdated": "2026-11-3 10:30 PM",
   "teams": [
     {
       "grade": "7th",
-      "totalPoints": 572629,
-      "online": 532629,
+      "totalPoints": 601629,
+      "online": 561629,
       "pennies": 0,
       "bonus": 40000,
       "sabotage": 0
     },
     {
       "grade": "8th",
-      "totalPoints": 157000,
-      "online": 153000,
+      "totalPoints": 177000,
+      "online": 173000,
       "pennies": 0,
       "bonus": 4000,
       "sabotage": 0
@@ -27,7 +27,7 @@
     {"day":"6","7th":490629,"8th":153500,"total-raised":6001},
     {"day":"7","7th":507629,"8th":157000,"total-raised":6206},
     {"day":"8","7th":555129,"8th":157000,"total-raised":6681},
-    {"day":"9","7th":572629,"8th":157000,"total-raised":6856}
+    {"day":"9","7th":601629,"8th":177000,"total-raised":7346}
   ],
   "historyByTeam": {
     "7th": {
@@ -40,7 +40,7 @@
         490629,
         507629,
         555129,
-        572629
+        601629
       ],
       "online": [
         185500,
@@ -51,7 +51,7 @@
         450629,
         467629,
         515129,
-        532629
+        561629
 
       ],
       "pennies": [
@@ -98,7 +98,7 @@
         153500,
         157000,
         157000,
-        157000
+        177000
       ],
       "online": [
         64500,
@@ -109,7 +109,7 @@
         149500,
         153000,
         153000,
-        153000
+        173000
       ],
       "pennies": [
         0,
@@ -197,9 +197,9 @@
       {"name":"Charlotte G.","grade":"(8th)","totalPoints":32500}]},
     {"day":"9","leaders":[
       {"name":"Blake B.","grade":"(7th)","totalPoints":51500},
+      {"name":"Kabeer S.","grade":"(7th)","totalPoints":49000},
       {"name":"Ava S.","grade":"(7th)","totalPoints":47000},
       {"name":"Mackenzie T.","grade":"(8th)","totalPoints":45000},
-      {"name":"Tallulah H.","grade":"(7th)","totalPoints":435000},
-      {"name":"Linnea V.","grade":"(7th)","totalPoints":40000}]}
+      {"name":"Tallulah H.","grade":"(7th)","totalPoints":435000}]}
   ]
 }
