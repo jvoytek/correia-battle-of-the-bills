@@ -1,18 +1,18 @@
 {
-  "lastUpdated": "2026-11-5 2:30 PM",
+  "lastUpdated": "2026-11-5 11:59 PM",
   "teams": [
     {
       "grade": "7th",
-      "totalPoints": 673629,
-      "online": 611629,
+      "totalPoints": 755629,
+      "online": 693629,
       "pennies": 0,
       "bonus": 62000,
       "sabotage": 0
     },
     {
       "grade": "8th",
-      "totalPoints": 234500,
-      "online": 222500,
+      "totalPoints": 245500,
+      "online": 233500,
       "pennies": 0,
       "bonus": 12000,
       "sabotage": 0
@@ -29,7 +29,7 @@
     {"day":"8","7th":555129,"8th":157000,"total-raised":6681},
     {"day":"9","7th":603129,"8th":177000,"total-raised":7361},
     {"day":"10","7th":637129,"8th":200500,"total-raised":7636},
-    {"day":"11","7th":673629,"8th":234500,"total-raised":8341}
+    {"day":"11","7th":755629,"8th":245500,"total-raised":8341}
 
   ],
   "historyByTeam": {
@@ -45,7 +45,7 @@
         555129,
         603129,
         637129,
-        673629
+        755629
       ],
       "online": [
         185500,
@@ -58,7 +58,7 @@
         515129,
         563129,
         575129,
-        611629
+        693629
 
       ],
       "pennies": [
@@ -113,7 +113,7 @@
         157000,
         177000,
         200500,
-        234500
+        245500
       ],
       "online": [
         64500,
@@ -126,7 +126,7 @@
         153000,
         173000,
         188500,
-        222500
+        233500
       ],
       "pennies": [
         0,
@@ -231,9 +231,10 @@
       {"name":"Mackenzie T.","grade":"(8th)","totalPoints":45000},
       {"name":"Tallulah H.","grade":"(7th)","totalPoints":43500}]},
     {"day":"11","leaders":[
-      {"name":"Blake B.","grade":"(7th)","totalPoints":51500},
-      {"name":"Kabeer S.","grade":"(7th)","totalPoints":50500},
-      {"name":"Ava S.","grade":"(7th)","totalPoints":47000},
+      {"name":"Blake B.","grade":"(7th)","totalPoints":61500},
+      {"name":"Ava S.","grade":"(7th)","totalPoints":57000},
+      {"name":"Kabeer S.","grade":"(7th)","totalPoints":53500},
+      {"name":"Christopher A.","grade":"(7th)","totalPoints":50000},
       {"name":"Mackenzie T.","grade":"(8th)","totalPoints":45000},
       {"name":"Tallulah H.","grade":"(7th)","totalPoints":43500}]}
   ]
