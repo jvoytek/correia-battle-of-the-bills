@@ -1,18 +1,18 @@
 {
-  "lastUpdated": "2026-11-6 2:15 PM",
+  "lastUpdated": "2026-11-8 6:30 PM",
   "teams": [
     {
       "grade": "7th",
-      "totalPoints": 836629,
-      "online": 774629,
+      "totalPoints": 856129,
+      "online": 794129,
       "pennies": 0,
       "bonus": 82000,
       "sabotage": 0
     },
     {
       "grade": "8th",
-      "totalPoints": 317500,
-      "online": 305500,
+      "totalPoints": 339500,
+      "online": 327500,
       "pennies": 0,
       "bonus": 12000,
       "sabotage": 0
@@ -31,7 +31,8 @@
     {"day":"10","7th":637129,"8th":200500,"total-raised":7636},
     {"day":"11","7th":755629,"8th":245500,"total-raised":8341},
     {"day":"12","7th":824629,"8th":307500,"total-raised":10581},
-    {"day":"13","7th":836629,"8th":317500,"total-raised":10801}
+    {"day":"13","7th":845129,"8th":327500,"total-raised":10986},
+    {"day":"14","7th":856129,"8th":339500,"total-raised":11216}
 
 
   ],
@@ -50,7 +51,8 @@
         637129,
         755629,
         824629,
-        836629
+        845129,
+        856129
       ],
       "online": [
         185500,
@@ -65,10 +67,12 @@
         575129,
         693629,
         762629,
-        774629
+        783129,
+        794129
 
       ],
       "pennies": [
+        0,
         0,
         0,
         0,
@@ -96,9 +100,11 @@
         62000,
         62000,
         82000,
+        82000,
         82000
       ],
       "sabotage": [
+        0,
         0,
         0,
         0,
@@ -128,7 +134,8 @@
         200500,
         245500,
         307500,
-        317500
+        327500,
+        339500
       ],
       "online": [
         64500,
@@ -143,9 +150,11 @@
         188500,
         233500,
         295500,
-        305500
+        315500,
+        327500
       ],
       "pennies": [
+        0,
         0,
         0,
         0,
@@ -173,9 +182,11 @@
         12000,
         12000,
         12000,
+        12000,
         12000
       ],
       "sabotage": [
+        0,
         0,
         0,
         0,
@@ -266,6 +277,12 @@
       {"name":"Lila S.","grade":"(8th)","totalPoints":54000},
       {"name":"Christopher A.","grade":"(7th)","totalPoints":50000}]},
     {"day":"13","leaders":[
+      {"name":"Blake B.","grade":"(7th)","totalPoints":61500},
+      {"name":"Kabeer S.","grade":"(7th)","totalPoints":58500},
+      {"name":"Ava S.","grade":"(7th)","totalPoints":57000},
+      {"name":"Lila S.","grade":"(8th)","totalPoints":54000},
+      {"name":"Christopher A.","grade":"(7th)","totalPoints":50000}]},
+    {"day":"14","leaders":[
       {"name":"Blake B.","grade":"(7th)","totalPoints":61500},
       {"name":"Kabeer S.","grade":"(7th)","totalPoints":58500},
       {"name":"Ava S.","grade":"(7th)","totalPoints":57000},
