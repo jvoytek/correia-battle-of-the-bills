@@ -1,21 +1,21 @@
 {
-  "lastUpdated": "2026-11-10 4:00 PM",
+  "lastUpdated": "2026-11-11 12:00 PM",
   "teams": [
     {
       "grade": "7th",
-      "totalPoints": 1211659,
-      "online": 946129,
-      "pennies": 30,
-      "bonus": 265500,
+      "totalPoints": 1261807,
+      "online": 971129,
+      "pennies": 178,
+      "bonus": 290500,
       "sabotage": 0
     },
     {
       "grade": "8th",
-      "totalPoints": 517500,
-      "online": 400500,
+      "totalPoints": 526010,
+      "online": 405500,
       "pennies": 0,
-      "bonus": 117000,
-      "sabotage": 0
+      "bonus": 122000,
+      "sabotage": -1490
     }
   ],
   "history": [
@@ -34,7 +34,8 @@
     {"day":"13","7th":885629,"8th":347500,"total-raised":10986},
     {"day":"14","7th":927629,"8th":387500,"total-raised":11396},
     {"day":"15","7th":1097659,"8th":487500,"total-raised":12746},
-    {"day":"16","7th":1211659,"8th":517500,"total-raised":13646}
+    {"day":"16","7th":1221807,"8th":526010,"total-raised":13566},
+    {"day":"17","7th":1261807,"8th":526010,"total-raised":13766}
 
 
   ],
@@ -56,7 +57,8 @@
         885629,
         927629,
         1097659,
-        1211659
+        1221807,
+        1261807
       ],
       "online": [
         185500,
@@ -74,7 +76,8 @@
         783129,
         804129,
         889129,
-        946129
+        951129,
+        971129
 
       ],
       "pennies": [
@@ -92,8 +95,9 @@
         0,
         0,
         0,
-        30,
-        30
+        60,
+        178,
+        178
       ],
       "bonus": [
         0,
@@ -111,9 +115,11 @@
         102500,
         123500,
         208500,
-        265500
+        270500,
+        290500
       ],
       "sabotage": [
+        0,
         0,
         0,
         0,
@@ -149,7 +155,8 @@
         347500,
         387500,
         487500,
-        517500
+        526010,
+        526010
       ],
       "online": [
         64500,
@@ -167,9 +174,11 @@
         315500,
         335500,
         385500,
-        400500
+        405500,
+        405500
       ],
       "pennies": [
+        0,
         0,
         0,
         0,
@@ -203,7 +212,8 @@
         32000,
         52000,
         102000,
-        117000
+        122000,
+        122000
       ],
       "sabotage": [
         0,
@@ -221,7 +231,8 @@
         0,
         0,
         0,
-        0
+        -1490,
+        -1490
       ]
     }
   },
@@ -321,6 +332,13 @@
       {"name":"Blake B.","grade":"(7th)","totalPoints":61500},
       {"name":"Hank S.","grade":"(7th)","totalPoints":60000},
       {"name":"Jack S.","grade":"(8th)","totalPoints":60000},
-      {"name":"Kabeer S.","grade":"(7th)","totalPoints":58500}]}
+      {"name":"Kabeer S.","grade":"(7th)","totalPoints":58500}]},
+    {"day":"17","leaders":[
+      {"name":"Christopher A.","grade":"(7th)","totalPoints":76000},
+      {"name":"Blake B.","grade":"(7th)","totalPoints":71500},
+      {"name":"Kabeer S.","grade":"(7th)","totalPoints":68500},
+      {"name":"Hank S.","grade":"(7th)","totalPoints":60000},
+      {"name":"Jack S.","grade":"(8th)","totalPoints":60000}]
+    }
   ]
 }
